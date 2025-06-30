@@ -1,0 +1,244 @@
+
+CHANGELOG LENGKAP TEBAK X by XOBE DEVELOPMENT
+
+🎮 v1.0 – Awal Perjalanan
+- Rilis pertama Tebak X
+- Gameplay sederhana: tebak angka 1–100
+- Tanpa skor, efek, atau UI kompleks
+
+v1.1 – Tambahan Skor & Reset
+- Skor percobaan ditampilkan
+- Tombol reset ditambahkan
+- Beberapa perbaikan tampilan
+
+v1.2 – High Score & Local Storage
+- Menyimpan skor terbaik
+- Tampilkan best score langsung di game
+- Perbaikan bug input dan refresh
+
+v1.3 – UI & Suara Dasar
+- Penambahan efek suara sederhana
+- UI dibuat lebih bersih
+- Struktur HTML & CSS dirapikan
+
+🚧 v2.0 – REBUILD TOTAL
+- Struktur ulang seluruh game
+- Responsive layout + mobile-friendly
+- Tampilan lebih profesional
+- Menu utama, deskripsi, dan tombol mulai ditambahkan
+
+v2.1 – Efek & Suara
+- Tambahan suara saat menang/kalah
+- Efek visual sederhana saat benar
+- Skor otomatis tersimpan
+
+v2.2 – Statistik
+- Statistik percobaan & waktu bermain
+- Penambahan timer
+- Perbaikan minor bug UI
+
+✅ v2.3 – Versi Stabil Dasar
+- UI rapi, skor & statistik lengkap
+- Efek kemenangan responsif
+- Dijadikan basis untuk versi lanjut
+
+🚀 v2.4 – Reborn Update
+- UI diperbarui total
+- Sistem tebakan lebih halus
+- Confetti saat menang
+- Statistik tampil real-time
+- High Score ditampilkan
+
+🔥 v2.5 – Combo & Leveling Update
+- Combo System (tebakan cepat & beruntun)
+- Sistem Leveling (naik level setiap combo tertentu)
+- Efek visual untuk level-up
+- Optimisasi sistem dan animasi
+- Fix tombol hint & enter
+
+v2.6 – Optimisasi & Fix
+- Efisiensi performa ditingkatkan
+- Bug XP, level-up, dan animasi diperbaiki
+
+🌗 v2.7 – Tema & Changelog
+- Mode Tema Gelap & Terang
+- Changelog Panel di menu
+- UI lebih stabil di perangkat kecil
+- Bug tombol reset diperbaiki
+
+⚡ v2.8 – Lightning Update
+- Efek petir jika menebak super cepat
+- 2 optimisasi ringan
+- 2 perbaikan bug suara dan tombol
+- Splash screen update ditambahkan
+
+🌀 v2.9 – Tema Acak & Stabilitas
+- Tema UI bisa acak saat load
+- Bug tombol hint dan animasi diperbaiki
+- Optimisasi loading & respons input
+
+🎉 v3.0 – ANNIVERSARY 2 BULAN
+5 Optimisasi besar:
+- UI lebih ringan
+- Layout stabil
+- Kompatibel semua device
+- Animasi & efek lebih halus
+- Kode lebih efisien
+
+5 Bug Fix penting:
+- Tombol Hint & Enter diperbaiki
+- Statistik & XP sekarang akurat
+- Tampilan level-up lebih rapi
+- Suara & combo stabil kembali
+
+MODE BARU: Versus AI (Beta)
+- Balapan tebak angka lawan AI
+- AI belajar dari tebakanmu
+- Masih dalam tahap pengembangan
+
+ TebakX v3.1
+Rilis: 4 mei 2025
+
+✨ Fitur Baru
+Tidak ada fitur baru di versi ini, fokus utama adalah perbaikan bug dan peningkatan performa.
+
+🐞 Bug Fixes
+[Fixed] Tombol Reset di Mode AI
+Tombol reset kini berjalan dengan benar dan tidak menyebabkan error atau crash.
+
+[Fixed] Hint Tidak Muncul Setelah 3 Tebakan
+Hint kini tampil otomatis setelah 3 tebakan, sesuai dengan yang dirancang.
+
+[Fixed] Level-Up Tidak Konsisten
+Level-up kini stabil, sistem tidak lagi melewatkan level saat pemain memenuhi syarat.
+
+⚙️ Optimizations
+[Optimized] Sistem Confetti
+Efek confetti telah dioptimasi agar tidak menyebabkan lag atau frame drop.
+
+[Optimized] Animasi Splash Screen
+Splash screen sekarang tampil lebih mulus dan cepat tanpa mengganggu UX.
+
+[Optimized] Responsivitas AI
+AI pada tingkat Medium dan Hard kini lebih cepat merespons, mengurangi delay yang mengganggu.
+
+ TebakX v3.2 — Update Tema Custom!
+📅 Rilis: [12 mei 2025]
+
+TebakX kini hadir dengan fitur Tema Custom, biar kamu bisa main dengan tampilan yang sesuai selera!
+
+🎨 Fitur Baru: Tema Custom
+🔄 Switch Tema Langsung: Ganti tampilan kapan pun tanpa reload
+
+🌙 Mode Gelap: Nyaman buat main malam-malam
+
+☀️ Mode Terang: Bersih dan simpel buat siang hari
+
+🕶️ Mode Neon (Eksperimental): Tampilan bercahaya futuristik
+
+🎮 Semua perubahan tersimpan otomatis di local storage!
+
+⚙️ Optimisasi
+UI tema lebih responsif dan cepat berubah
+
+Performa splash screen disesuaikan dengan tema aktif
+
+🧼 Bug Fix
+Tidak ada bug utama diperbaiki di versi ini — fokus pada fitur visual
+
+🧪 Siap Eksplorasi Warna Baru!
+Mainkan TebakX dengan gaya baru dan rasakan pengalaman personal yang lebih seru!
+
+
+🚀 Tebak X v3.3 Sudah Mendarat! 🚀
+Haii semuanya! Maaf yaa, udah 2 minggu kita gak nongol 😅 Tapi tenang, kita balik dengan update kece yang pastinya bikin main makin seru!
+
+✨ Yang baru di versi 3.3:
+🔧 Semua bug udah disikat habis! (penamaan, combo, level, AI, dan lain-lain)
+📱 Full responsif di semua perangkat — HP, tablet, maupun desktop
+🎨 Judul, splash screen, dan label udah pakai versi 3.3
+🧼 Kode lebih bersih, ringan, dan efisien
+
+❤️ Terima kasih buat kalian yang setia nungguin.
+🗓️ Catat ya, update selanjutnya bakal hadir tanggal 12 Juni! Jangan sampai ketinggalan~
+
+
+🔧 [Update] Tebak X - 12 Juni 2025: Penambahan Quest & Perbaikan Bug
+
+📅 Tanggal Rilis: 12 Juni 2025
+📂 Project: Tebak X
+🎯 Tujuan: Menambahkan sistem Quest dan memperbaiki bug dari versi sebelumnya.
+
+✅ Fitur Baru
+Sistem Quest Harian & Mingguan
+Kini pemain dapat menyelesaikan tantangan harian dan mingguan untuk mendapatkan hadiah menarik.
+
+UI Quest Sederhana
+Tampilan popup progress quest yang intuitif dan ringan.
+
+Notifikasi Quest Selesai
+Pemberitahuan otomatis ketika quest berhasil diselesaikan.
+
+🐞 Perbaikan Bug
+Skor Tidak Tersimpan Saat Menang Beruntun
+Telah diperbaiki agar skor tercatat dengan benar.
+
+Tombol 'Kembali' Tidak Responsif
+Responsivitas UI tombol diperbaiki agar berfungsi di semua perangkat.
+
+Optimisasi Pemuatan Pertanyaan
+Pertanyaan kini dimuat lebih cepat, mengurangi waktu tunggu.
+
+📌 Catatan Tambahan
+Quest aktif secara otomatis saat game dimulai.
+
+Sistem quest menggunakan waktu lokal perangkat, bukan server.
+
+🔄 Status Update
+✅ Sistem quest telah selesai dibuat
+
+✅ Fitur tambahan shop telah ditambahkan
+
+✅ Bug utama telah diperbaiki
+
+✅ Telah melalui pengujian internal
+
+✅ Versi stabil dirilis
+
+
+
+
+🔧 [Update] Tebak X - 19 Juni 2025: New Version Zaz Version 3.5
+
+📅 Tanggal Rilis: 19 Juni 2025
+📂 Project: Tebak X
+🎯 Tujuan: Merombak total design ui/ux dan beberapa optimisasi
+
+✅ Fitur Baru
+Tema Baru ZAZ  Theme 
+
+UI Diperbagus dan dibuat responsiv
+Tampilan UI dibuat lebih profesional lebih responsiv di semua perangkat
+
+Notifikasi Quest Selesai
+Pemberitahuan otomatis ketika quest berhasil diselesaikan.
+
+🐞 Perbaikan Bug
+Skor Tidak Tersimpan Saat Menang Beruntun
+Telah diperbaiki agar skor tercatat dengan benar.
+
+Tombol 'Kembali' Tidak Responsif
+Responsivitas UI tombol diperbaiki agar berfungsi di semua perangkat.
+
+Optimisasi Pemuatan Pertanyaan
+Pertanyaan kini dimuat lebih cepat, mengurangi waktu tunggu.
+
+✅ Versi stabil dirilis
+
+
+
+
+
+
+
+🧠 Dibuat oleh: VOUNTE | XOBE DEVELOPMENT

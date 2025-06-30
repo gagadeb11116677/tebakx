@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TebakX v3.5 Zaz Version</title>
+  <!-- Google Fonts untuk tampilan modern -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #374151;      /* abu gelap */
+      --secondary: #a7c7e7;    /* biru muda pastel */
+      --accent: #fbbf24;       /* kuning gold */
+      --bg: #f3f4f6;           /* abu muda */
+      --text: #222;
+      --radius: 18px;
+      --shadow: 0 8px 32px rgba(55,65,81,0.10), 0 1.5px 6px #37415122;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      min-height: 100vh;
+      width: 100vw;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, var(--primary), var(--secondary) 90%);
+      color: var(--text);
+      transition: background 0.5s;
+      overflow-x: hidden;
+    }
+    body.zaz-theme {
+      background: linear-gradient(135deg, #23272f 0%, #a7c7e7 100%);
+      color: #f3f4f6;
+    }
+    body.zaz-theme .container {
+      background: #23272f;
+      color: #fbbf24;
+      box-shadow: 0 0 30px #23272f, 0 0 60px #a7c7e7;
+    }
+    body.zaz-theme h1,
+    body.zaz-theme .modal-content h2 {
+      color: #fbbf24;
+      text-shadow: 0 2px 12px #23272f;
+    }
+    body.zaz-theme p,
+    body.zaz-theme .result,
+    body.zaz-theme .guesses,
+    body.zaz-theme .hint,
+    body.zaz-theme .feedback,
+    body.zaz-theme .highscore,
+    body.zaz-theme .stats,
+    body.zaz-theme .credits,
+    body.zaz-theme .level {
+      color: #e0e7ef;
+    }
+    body.zaz-theme button,
+    body.zaz-theme select {
+      background: linear-gradient(90deg, #374151, #a7c7e7);
+      color: #fbbf24;
+      border: 2px solid #fbbf24;
+      text-shadow: 0 0 8px #23272f;
+    }
+    body.zaz-theme button:hover {
+      background: linear-gradient(90deg, #a7c7e7, #374151);
+      color: #23272f;
+    }
+    body.zaz-theme .modal-content {
+      background: #23272f;
+      color: #fbbf24;
+    }
+    body.zaz-theme #coinDisplay {
+      background: #fbbf24;
+      color: #23272f;
+      box-shadow: 0 2px 8px #fbbf2455;
+    }
+    body.zaz-theme .splash-screen {
+      background: linear-gradient(135deg, #23272f 0%, #a7c7e7 100%);
+    }
+    body.zaz-theme .splash-content h1 {
+      color: #fbbf24;
+      text-shadow: 0 2px 12px #23272f;
+    }
+    body.zaz-theme .splash-bar-inner {
+      background: linear-gradient(90deg, #fbbf24, #a7c7e7, #374151);
+    }
+    /* Zaz Theme Button */
+    #zazThemeBtn {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: #23272f;
+      color: #fbbf24;
+      border: none;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      font-size: 1.3em;
+      font-weight: bold;
+      z-index: 10001;
+      box-shadow: 0 2px 8px #23272f44;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #zazThemeBtn.active,
+    #zazThemeBtn:hover {
+      background: #fbbf24;
+      color: #23272f;
+    }
+    @media (max-width: 480px) {
+      #zazThemeBtn { width: 38px; height: 38px; font-size: 1.1em; }
+    }
+    .container {
+      background: var(--bg);
+      color: var(--primary);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      max-width: 420px;
+      width: 100%;
+      margin: 32px auto 0 auto;
+      padding: 32px 24px 28px 24px;
+      text-align: center;
+      animation: fadeIn 0.7s cubic-bezier(.4,2,.6,1);
+      position: relative;
+    }
+    @media (max-width: 600px) {
+      .container {
+        margin: 16px auto 0 auto;
+        padding: 18px 4vw 18px 4vw;
+        max-width: 99vw;
+      }
+    }
+    h1 {
+      font-size: 2.1em;
+      margin-bottom: 10px;
+      color: var(--primary);
+      letter-spacing: 1px;
+      font-weight: 700;
+      text-shadow: 0 2px 12px #fff3;
+    }
+    p {
+      margin-bottom: 18px;
+      color: #6d2b4b;
+      font-size: 1.08em;
+    }
+    .theme-picker {
+      margin: 10px 0 20px 0;
+      text-align: center;
+    }
+    .theme-picker label {
+      margin-right: 10px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+    .theme-picker select {
+      padding: 7px 14px;
+      border-radius: 8px;
+      border: 1.5px solid var(--primary);
+      font-size: 15px;
+      background: #fff;
+      color: var(--primary);
+      margin-right: 10px;
+      outline: none;
+      transition: border 0.3s;
+    }
+    .theme-picker input[type="color"] {
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      margin: 0 5px;
+      cursor: pointer;
+      vertical-align: middle;
+      box-shadow: 0 0 4px #888;
+    }
+    input[type="number"], input[type="text"] {
+      width: 100%;
+      padding: 13px 12px;
+      margin-bottom: 15px;
+      font-size: 17px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      transition: border-color 0.3s;
+      background: #fff;
+      color: var(--primary);
+      outline: none;
+    }
+    input[type="number"]:focus, input[type="text"]:focus {
+      border-color: var(--primary);
+      background: #fff7fa;
+    }
+    button {
+      padding: 12px 22px;
+      font-size: 1.08em;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 7px 6px 7px 0;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0 2px 8px #e91e6322;
+      transition: background 0.3s, transform 0.18s;
+      outline: none;
+    }
+    button:hover, button:focus {
+      background: linear-gradient(90deg, var(--secondary), var(--primary));
+      color: var(--primary);
+      transform: translateY(-2px) scale(1.04);
+    }
+    button:disabled {
+      background: #eee;
+      color: #bbb;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    #resetBtn { background: linear-gradient(90deg, #ff9800, #ffe0b2); color: #fff; }
+    #hintBtn { background: linear-gradient(90deg, #4caf50, #b2ffb2); color: #fff; }
+    #shareBtn { background: linear-gradient(90deg, #9c27b0, #f3e5f5); color: #fff; }
+    .clear-buttons button { background: linear-gradient(90deg, #e91e63, #fce4ec); color: #fff; }
+    .result, .guesses, .hint, .feedback, .highscore, .stats, .credits {
+      font-size: 1.08em;
+      margin-bottom: 10px;
+      color: #6d2b4b;
+    }
+    .result { font-weight: bold; color: var(--primary); }
+    .level { font-size: 1.1em; color: #e91e63; margin-top: 10px; }
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      animation: fadeIn 0.4s;
+    }
+    .modal-content {
+      background: #fff0f6;
+      padding: 28px 22px 18px 22px;
+      border-radius: 18px;
+      text-align: center;
+      max-width: 400px;
+      width: 92vw;
+      box-shadow: 0 8px 32px #e91e6322;
+      color: #e91e63;
+      animation: fadeIn 0.5s;
+    }
+    .modal-content h2 { margin-bottom: 15px; color: #e91e63; }
+    .modal-content ul { list-style: none; padding: 0; margin: 0; }
+    .modal-content ul li { margin-bottom: 10px; color: #b71c50; }
+    .modal-content button {
+      padding: 12px 28px;
+      font-size: 1.1em;
+      border-radius: 10px;
+      margin-top: 14px;
+      min-width: 120px;
+      background: linear-gradient(90deg, #e91e63, #fce4ec);
+      color: #fff;
+    }
+    .modal-content button:hover {
+      background: linear-gradient(90deg, #fce4ec, #e91e63);
+      color: #e91e63;
+    }
+    @media (max-width: 480px) {
+      .modal-content { padding: 15px; font-size: 14px; }
+      .modal-content button { width: 100%; font-size: 1.15em; padding: 14px 0; }
+    }
+    /* Splash Screen Styles */
+    .splash-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: linear-gradient(135deg, #e91e63, #fce4ec 90%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3000;
+      flex-direction: column;
+      animation: fadeIn 0.7s;
+    }
+    .splash-content {
+      text-align: center;
+      color: #fff;
+      font-family: 'Roboto', sans-serif;
+      animation: fadeIn 0.5s;
+    }
+    .splash-content h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: #e91e63;
+      text-shadow: 0 2px 12px #fce4ec;
+    }
+    .splash-content p {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    .splash-content ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px;
+      color: #fff;
+    }
+    .splash-content ul li {
+      font-size: 1rem;
+      margin-bottom: 5px;
+    }
+    .splash-bar {
+      width: 220px;
+      height: 16px;
+      background: #fff3;
+      border-radius: 10px;
+      margin: 24px auto 0 auto;
+      overflow: hidden;
+      box-shadow: 0 2px 8px #e91e6322;
+    }
+    .splash-bar-inner {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #ffe53b, #ff0080, #00ffb2, #1c92d2);
+      border-radius: 10px;
+      animation: splashBarAnim 2.2s linear forwards;
+    }
+    @keyframes splashBarAnim {
+      0% { width: 0; }
+      100% { width: 100%; }
+    }
+    /* Confetti Styles */
+    .confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 0;
+      pointer-events: none;
+      overflow: visible;
+      z-index: 1000;
+    }
+    .confetti {
+      position: absolute;
+      top: -10px;
+      width: 10px;
+      height: 10px;
+      opacity: 0.9;
+      transform: rotate(0deg);
+      animation: confetti-fall 7s linear infinite;
+    }
+    @keyframes confetti-fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+    /* Zaz Theme Button */
+    #zazThemeBtn {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: #23272f;
+      color: #fbbf24;
+      border: none;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      font-size: 1.3em;
+      font-weight: bold;
+      z-index: 10001;
+      box-shadow: 0 2px 8px #23272f44;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #zazThemeBtn.active,
+    #zazThemeBtn:hover {
+      background: #fbbf24;
+      color: #23272f;
+    }
+    @media (max-width: 480px) {
+      #zazThemeBtn { width: 38px; height: 38px; font-size: 1.1em; }
+    }
+    /* Responsive tweaks */
+    @media (max-width: 480px) {
+      h1 { font-size: 1.3em; }
+      .container { padding: 10px 2vw 14px 2vw; }
+      .theme-picker label, .theme-picker select { font-size: 0.98em; }
+      button { font-size: 1em; padding: 10px 10px; }
+      .level { font-size: 1em; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Zaz Theme Button -->
+  <button id="zazThemeBtn" title="Aktifkan/Matikan Zaz Version">Z</button>
+  <!-- Splash Screen -->
+  <div id="splashScreen" class="splash-screen">
+    <div class="splash-content">
+      <img src="TebakX new logo.png" alt="Zaz Logo" style="width:90px;height:90px;border-radius:50%;box-shadow:0 4px 24px #e91e6344;margin-bottom:10px;">
+      <h1>TEBAKX v3.5<br><span style="font-size:0.7em;color:#e91e63;">Zaz Version</span></h1>
+      <div class="splash-bar"><div class="splash-bar-inner"></div></div>
+      <p style="margin-top:18px;font-weight:bold;color:#fff;">UI/UX Baru, Tema Eksklusif, Modern & Responsif!</p>
+      <ul>
+        <li>🎨 Tema eksklusif <b>Zaz Version</b></li>
+        <li>🚀 UI/UX dirombak total, lebih modern & rapi</li>
+        <li>📱 Responsif di semua perangkat</li>
+        <li>⚡ Optimisasi performa</li>
+        <li>🌟 Splash screen baru makin keren</li>
+        <li>🐞 Bug fix minor</li>
+      </ul>
+      <p style="margin-top:10px;">🔥 Powered by XOBE DEVELOPMENT</p>
+      <p style="font-size:13px;">Loading...</p>
+    </div>
+  </div>
+  <!-- Menu Utama -->
+  <div id="mainMenu" class="container" style="display:none;">
+    <h1>TebakX v3.5 <span style="color:#e91e63;">Zaz Version</span> 🔢</h1>
+    <p>Selamat datang di TebakX Zaz Version! Siap uji instingmu dalam tantangan tebak angka? 🚀</p>
+    <div class="theme-picker">
+      <label for="themeSelect">Tema:</label>
+      <select id="themeSelect" onchange="changeTheme()">
+        <option value="dark">Gelap</option>
+        <option value="light">Terang</option>
+        <option value="neon">Neon</option>
+        <option value="custom">Custom</option>
+        <option value="rainbow" disabled>🌈 Rainbow (Beli di Shop)</option>
+        <option value="orion" disabled>🪐 Orion (Beli di Shop)</option>
+        <option value="cyber" disabled>🤖 Tea Cyber (Beli di Shop)</option>
+      </select>
+      <span id="customThemePicker" style="display:none;">
+        <label for="color1">Warna 1:</label>
+        <input type="color" id="color1" value="#6a11cb" onchange="applyCustomTheme()">
+        <label for="color2">Warna 2:</label>
+        <input type="color" id="color2" value="#2575fc" onchange="applyCustomTheme()">
+      </span>
+    </div>
+    <button onclick="showVerification()">Mulai Game 🚀</button>
+    <button onclick="startAIMode()">Versus AI 🤖</button>
+    <button onclick="showQuestPopup()">🎯 Quest</button>
+    <button onclick="showThemeShop()">🛒 Shop Tema Eksklusif</button>
+    <button id="themeToggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+    <button id="changelogBtn" onclick="showChangelog()">📜 Lihat Changelog</button>
+  </div>
+  <!-- Modal Quest -->
+  <div id="questModal" class="modal" style="display:none;"></div>
+  <!-- Modal Shop Tema -->
+  <div id="themeShopModal" class="modal" style="display:none;"></div>
+  <!-- Modal Verifikasi -->
+  <div id="verificationModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h2>Verifikasi</h2>
+      <p>Masukkan kode verifikasi: <strong>zaS nEON</strong></p>
+      <input type="text" id="verificationInput" placeholder="Ketik kode verifikasi">
+      <button onclick="verifyUser()">Verifikasi</button>
+      <button onclick="closeVerificationModal()">Tutup</button>
+    </div>
+  </div>
+  <!-- Area Permainan (disembunyikan saat awal) -->
+  <div id="gameArea" class="container" style="display: none;">
+    <p>Tebak angka antara 1 dan 100!</p>
+    <input type="number" id="guess" placeholder="Masukkan tebakan">
+    <div class="btn-group">
+      <button id="guessBtn" onclick="makeGuess()">Tebak</button>
+      <button id="resetBtn" onclick="resetGame()" style="display: none;">Reset 🔄</button>
+      <button id="hintBtn" onclick="showHint()">Hint 💡</button>
+      <button id="shareBtn" onclick="shareScore()" style="display: none;">Share Score 📤</button>
+    </div>
+    <div class="result" id="result"></div>
+    <div class="guesses" id="guesses"></div>
+    <div class="hint" id="hint"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="highscore" id="highscore"></div>
+    <div class="stats" id="stats"></div>
+    <div class="clear-buttons">
+      <button id="clearScoreBtn" onclick="clearHighScore()">Clear High Score 🗑️</button>
+      <button id="clearStatsBtn" onclick="clearGameStats()">Reset Statistics 🗑️</button>
+    </div>
+    <div class="credits">
+      <p>Credits: <strong>XOBE DEVELOPMENT</strong></p>
+    </div>
+    <div id="level" class="level">Level: 1 (Beginner)</div>
+  </div>
+  <div id="confettiContainer" class="confetti-container"></div>
+  <div id="changelogModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h2>Changelog TebakX</h2>
+      <ul style="text-align: left; max-height: 300px; overflow-y: auto;">
+        <li><strong>v3.5 Zaz Version</strong>:
+          <ul>
+            <li>🎨 Tema eksklusif <b>Zaz Version</b> (aktifkan tombol Z di kiri atas)</li>
+            <li>🚀 UI/UX dirombak total, lebih modern & rapi</li>
+            <li>📱 Responsif di semua perangkat</li>
+            <li>⚡ Optimisasi performa</li>
+            <li>🌟 Splash screen baru makin keren</li>
+            <li>🐞 Bug fix minor</li>
+          </ul>
+        </li>
+        <li><strong>v3.4</strong>:
+          <ul>
+            <li>🎯 Penambahan Quest Harian & Mingguan (reset otomatis)</li>
+            <li>💰 Koin reward quest & Shop Tema Eksklusif</li>
+            <li>🎨 Tema Rainbow, Orion, Cyber bisa dibeli dengan koin</li>
+            <li>🐞 Perbaikan bug & optimasi performa</li>
+            <li>📱 UI makin responsif di semua perangkat</li>
+            <li>🙏 Terima kasih untuk semua feedback!</li>
+          </ul>
+        </li>
+        <li><strong>v3.3</strong>:
+          <ul>
+            <li>🐞 Perbaikan bug & optimisasi performa</li>
+            <li>📱 Tampilan lebih bagus & responsif di semua device</li>
+            <li>✨ Animasi & UI lebih halus</li>
+            <li>🎨 Tema Neon & Custom tetap tersedia</li>
+          </ul>
+        </li>
+        <li><strong>v3.2</strong>:
+          <ul>
+            <li>🎨 Penambahan Tema Neon & Custom</li>
+            <li>✨ Efek visual & animasi tombol lebih keren</li>
+            <li>🔊 Musik latar belakang</li>
+            <li>🐞 Bugfix minor pada sistem combo</li>
+          </ul>
+        </li>
+        <li><strong>v3.1</strong>:
+          <ul>
+            <li>🧹 Pembersihan kode & optimisasi performa</li>
+            <li>📱 Tampilan lebih responsif untuk HP</li>
+            <li>🛠️ Perbaikan bug pada sistem level & statistik</li>
+          </ul>
+        </li>
+        <li><strong>v3.0</strong>:
+          <ul>
+            <li>🚀 Versi baru dengan UI modern</li>
+            <li>🔢 Sistem level & combo</li>
+            <li>🏆 High Score & statistik</li>
+            <li>🎉 Efek confetti saat menang</li>
+          </ul>
+        </li>
+        <li><strong>v2.9</strong>:
+          <ul>
+            <li>🛠️ Perbaikan bug dan peningkatan performa</li>
+            <li>🎨 Penambahan opsi tema baru</li>
+          </ul>
+        </li>
+        <li><strong>v2.0–v2.8</strong>:
+          <ul>
+            <li>🆕 Penambahan mode AI</li>
+            <li>🔄 Reset & share score</li>
+            <li>🐞 Bugfix & optimasi</li>
+          </ul>
+        </li>
+        <li><strong>v1.9</strong>:
+          <ul>
+            <li>🛠️ Perbaikan bug minor</li>
+            <li>📱 Peningkatan tampilan mobile</li>
+          </ul>
+        </li>
+        <li><strong>v1.0–v1.8</strong>:
+          <ul>
+            <li>🎮 Game Tebak Angka dasar</li>
+            <li>📊 High Score sederhana</li>
+            <li>🛠️ Penambahan statistik</li>
+          </ul>
+        </li>
+        <li><strong>v0.9</strong>:
+          <ul>
+            <li>🛠️ Perbaikan bug awal</li>
+            <li>📱 Tampilan awal responsif</li>
+          </ul>
+        </li>
+        <li><strong>v0.1–v0.8</strong>:
+          <ul>
+            <li>🚧 Prototype awal TebakX</li>
+            <li>🔢 Fitur tebak angka sederhana</li>
+          </ul>
+        </li>
+      </ul>
+      <button onclick="closeChangelog()">Tutup</button>
+    </div>
+  </div>
+  <div id="aiMode" class="container" style="display: none;">
+    <h1>Versus AI 🤖</h1>
+    <p>Balapan tebak angka melawan AI! Siapa yang lebih cepat?</p>
+    <label for="aiDifficulty">Pilih Tingkat Kesulitan:</label>
+    <select id="aiDifficulty">
+      <option value="easy">Easy</option>
+      <option value="medium" selected>Medium</option>
+      <option value="hard">Hard</option>
+    </select>
+    <input type="number" id="playerGuess" placeholder="Masukkan tebakan Anda">
+    <button onclick="playerMakeGuess()">Tebak</button>
+    <div id="aiFeedback" class="feedback"></div>
+    <div id="playerFeedback" class="feedback"></div>
+    <div id="aiResult" class="result"></div>
+    <div id="playerResult" class="result"></div>
+    <button onclick="resetAIMode()">Reset Mode AI</button>
+  </div>
+  <div id="coinDisplay" style="position:fixed;top:10px;right:10px;background:#ffd700;color:#333;padding:8px 18px;border-radius:20px;font-weight:bold;box-shadow:0 2px 8px #ffd70055;z-index:9999;display:none;">💰 Koin: 0</div>
+  <!-- Script tetap sama seperti sebelumnya -->
+  <script>
+    // Deklarasi variabel game
+    let secretNumber;
+    const maxNumber = 100; // Rentang angka: 1 - 100
+    let attempts;
+    let guessHistory = [];
+    let bestScore;
+    let startTime; // waktu mulai permainan
+    let comboCount = 0; // Untuk sistem combo
+    let level = 1; // Untuk sistem leveling
+
+    // Fungsi untuk memperbarui level
+    function updateLevel() {
+      const levelDiv = document.getElementById('level');
+      if (!levelDiv) {
+        console.error("Elemen level tidak ditemukan!");
+        return;
+      }
+    
+      // Naik level jika comboCount mencapai 5
+      if (comboCount >= 5) {
+        const titles = ["Beginner", "Intermediate", "Advanced", "Expert", "Master", "Grandmaster", "Legend"];
+        const maxLevel = titles.length;
+
+        if (level < maxLevel) {
+          level++;
+          comboCount = 0; // Reset combo setelah naik level
+        }
+
+        // Tampilkan pesan level up
+        const levelUpMessage = document.createElement('div');
+        levelUpMessage.className = 'level-up';
+        levelUpMessage.textContent = `Level Up! 🎉 Kamu sekarang di Level ${level}`;
+        document.body.appendChild(levelUpMessage);
+
+        // Hapus pesan setelah animasi selesai
+        setTimeout(() => {
+          levelUpMessage.remove();
+        }, 3000);
+
+        // Tampilkan confetti untuk level up
+        showConfetti(50);
+      }
+
+      // Tentukan gelar berdasarkan level
+      const titles = ["Beginner", "Pro", "Master", "Legend"];
+      const title = titles[Math.min(level - 1, titles.length - 1)];
+      levelDiv.textContent = `Level: ${level} (${title})`;
+    }
+
+    function showVerification() {
+      document.getElementById('verificationModal').style.display = 'flex';
+    }
+
+    function verifyUser() {
+      const userInput = document.getElementById('verificationInput').value.trim();
+      const correctCode = "zaS nEON"; // Pastikan kode ini tidak memiliki spasi tambahan
+      if (userInput === correctCode) {
+        document.getElementById('verificationModal').style.display = 'none';
+        goToGame();
+      } else {
+        alert("Kode verifikasi salah! ❌");
+      }
+    }
+
+    function goToGame() {
+      document.getElementById('mainMenu').style.display = 'none';
+      document.getElementById('gameArea').style.display = 'block';
+      startGame();
+    }
+
+    function startGame() {
+      secretNumber = Math.floor(Math.random() * maxNumber) + 1;
+      attempts = 0;
+      guessHistory = [];
+      startTime = Date.now();
+      
+      // Reset tampilan
+      const resultDiv = document.getElementById('result');
+      resultDiv.textContent = '';
+      resultDiv.classList.remove('lightning-effect'); // pastikan efek petir dihapus saat reset
+
+      document.getElementById('guesses').textContent = '';
+      document.getElementById('hint').textContent = '';
+      document.getElementById('feedback').textContent = '';
+      document.getElementById('guess').disabled = false;
+      document.getElementById('guessBtn').disabled = false;
+      document.getElementById('resetBtn').style.display = 'none';
+      document.getElementById('hintBtn').disabled = false;
+      document.getElementById('shareBtn').style.display = 'none';
+      document.getElementById('guess').value = '';
+      
+      displayHighScore();
+      displayGameStats();
+      console.log("Secret Number (debug):", secretNumber);
+
+      // Tambahkan ini:
+      updateQuestProgress("daily", "daily1", 1);
+      updateQuestProgress("weekly", "weekly1", 1);
+    }
+
+    function makeGuess() {
+      const guessInput = document.getElementById('guess');
+      const resultDiv = document.getElementById('result');
+      const guessesDiv = document.getElementById('guesses');
+      const feedbackDiv = document.getElementById('feedback');
+      const guess = Number(guessInput.value);
+
+      if (!guess && guess !== 0) {
+        resultDiv.textContent = 'Masukkan angka yang valid! ❌';
+        return;
+      }
+
+      attempts++;
+      guessHistory.push(guess);
+
+      if (guess === secretNumber) {
+        comboCount++;
+
+        // Efek Combo
+        if (comboCount >= 3) {
+          resultDiv.textContent += `\nCombo Bonus! 🔥 Kamu berhasil menjawab dengan benar ${comboCount} kali berturut-turut!`;
+        }
+        if (comboCount >= 5) {
+          const comboMessage = document.createElement('div');
+          comboMessage.className = 'combo-glow';
+          comboMessage.textContent = `🔥 Combo x${comboCount}! Kamu luar biasa! 🔥`;
+          comboMessage.style.position = 'fixed';
+          comboMessage.style.top = '30%';
+          comboMessage.style.left = '50%';
+          comboMessage.style.transform = 'translate(-50%, -50%)';
+          comboMessage.style.zIndex = '4000';
+          comboMessage.style.fontSize = '2em';
+          comboMessage.style.pointerEvents = 'none';
+          document.body.appendChild(comboMessage);
+          setTimeout(() => { comboMessage.remove(); }, 3000);
+        }
+
+        // Sistem Leveling
+        if (comboCount >= 5) updateLevel();
+
+        // Menampilkan pesan kemenangan
+        const endTime = Date.now();
+        const gameDuration = Math.floor((endTime - startTime) / 1000);
+        let messageText = `Selamat! 🎉 Tebakannya benar: ${secretNumber} dalam ${attempts} percobaan dan ${gameDuration} detik.`;
+
+        // Cek event tebakan paling cepat
+        const fastestTimeStr = localStorage.getItem('fastestTime');
+        const fastestTime = fastestTimeStr ? Number(fastestTimeStr) : Infinity;
+        if (gameDuration < fastestTime) {
+          localStorage.setItem('fastestTime', gameDuration);
+          messageText += "\nEvent: Tebakan Paling Cepat! ⚡ Efek petir eksklusif!";
+          resultDiv.classList.add('lightning-effect');
+        }
+
+        resultDiv.innerHTML = messageText;
+
+        // === Tambahan: update skor dan statistik setiap menang, sebelum ronde baru ===
+        updateHighScore();
+        updateGameStats(gameDuration);
+
+        updateQuestProgress("daily", "daily2", 1); // Menang 2x hari ini
+updateQuestProgress("weekly", "weekly2", 1); // Menang 7x minggu ini
+
+        showConfetti();
+
+        // Mulai game baru secara otomatis tanpa reset manual
+        setTimeout(() => {
+          updateHighScore(); // Pastikan best score tetap update di ronde baru
+          updateGameStats(gameDuration); // Pastikan statistik tetap update di ronde baru
+          startNewRound(); // Mulai ronde baru
+        }, 3000); // Tunggu 3 detik sebelum memulai ronde baru
+      } else {
+        comboCount = 0; // Reset combo jika tebakan salah
+        feedbackDiv.textContent = guess < secretNumber ? 'Terlalu kecil! 👇' : 'Terlalu besar! 👆';
+      }
+      guessesDiv.textContent = 'Tebakan Anda: ' + guessHistory.join(', ');
+      guessInput.value = '';
+      guessInput.focus(); // Fokuskan ke input agar user bisa langsung menebak lagi
+    } // <--- Tambahkan kurung kurawal penutup di sini
+
+    // Fungsi untuk memulai ronde baru tanpa reset total
+    function startNewRound() {
+      secretNumber = Math.floor(Math.random() * maxNumber) + 1;
+      attempts = 0;
+      guessHistory = [];
+      startTime = Date.now();
+
+      // Reset elemen tampilan
+      const resultDiv = document.getElementById('result');
+      resultDiv.textContent = '';
+      resultDiv.classList.remove('lightning-effect');
+
+      document.getElementById('guesses').textContent = '';
+      document.getElementById('hint').textContent = '';
+      document.getElementById('feedback').textContent = '';
+      document.getElementById('guess').disabled = false;
+      document.getElementById('guessBtn').disabled = false;
+      document.getElementById('hintBtn').disabled = false;
+      document.getElementById('guess').value = '';
+
+      console.log("Secret Number (debug):", secretNumber);
+    }
+
+    function showHint() {
+      const hintDiv = document.getElementById('hint');
+      if (attempts >= 3) {
+        hintDiv.textContent = secretNumber % 2 === 0 
+          ? 'Hint: Angka rahasia adalah genap. ➕'
+          : 'Hint: Angka rahasia adalah ganjil. ➖';
+        document.getElementById('hintBtn').disabled = true;
+      } else {
+        hintDiv.textContent = `Cobalah ${3 - attempts} tebakan lagi untuk mendapatkan hint! 🤔`;
+      }
+    }
+
+    function resetGame() {
+      startGame();
+      comboCount = 0; // Reset combo saat game di-reset
+    }
+
+    function updateHighScore() {
+      const bestScore = localStorage.getItem('highScore');
+      if (!bestScore || attempts < bestScore) {
+        localStorage.setItem('highScore', attempts);
+      }
+      displayHighScore();
+    }
+
+    function displayHighScore() {
+      bestScore = Number(localStorage.getItem('highScore'));
+      const highscoreDiv = document.getElementById('highscore');
+      if (bestScore) {
+        highscoreDiv.textContent = 'Best Score: ' + bestScore + ' percobaan 🏆';
+      } else {
+        highscoreDiv.textContent = 'Belum ada Best Score.';
+      }
+    }
+
+    function clearHighScore() {
+      localStorage.removeItem('highScore');
+      displayHighScore();
+    }
+
+    function updateGameStats(gameDuration) {
+      let totalGames = localStorage.getItem('totalGames');
+      let totalAttempts = localStorage.getItem('totalAttempts');
+      let totalTime = localStorage.getItem('totalTime');
+      totalGames = totalGames ? Number(totalGames) + 1 : 1;
+      totalAttempts = totalAttempts ? Number(totalAttempts) + attempts : attempts;
+      totalTime = totalTime ? Number(totalTime) + gameDuration : gameDuration;
+      localStorage.setItem('totalGames', totalGames);
+      localStorage.setItem('totalAttempts', totalAttempts);
+      localStorage.setItem('totalTime', totalTime);
+
+      let bestTime = localStorage.getItem('bestTime');
+      if (!bestTime || gameDuration < bestTime) {
+        localStorage.setItem('bestTime', gameDuration);
+      }
+      displayGameStats();
+    }
+
+    function displayGameStats() {
+      const statsDiv = document.getElementById('stats');
+      let totalGames = localStorage.getItem('totalGames') || 0;
+      let totalAttempts = localStorage.getItem('totalAttempts') || 0;
+      let totalTime = localStorage.getItem('totalTime') || 0;
+
+      const avgAttempts = (totalAttempts / totalGames).toFixed(2);
+      const avgTime = (totalTime / totalGames).toFixed(2);
+
+      statsDiv.textContent = `📊 Total Games: ${totalGames}, Avg Attempts: ${avgAttempts}, Avg Time: ${avgTime} detik`;
+    }
+
+    function clearGameStats() {
+      localStorage.removeItem('totalGames');
+      localStorage.removeItem('totalAttempts');
+      localStorage.removeItem('totalTime');
+      localStorage.removeItem('bestTime');
+      displayGameStats();
+    }
+
+   
+
+    function updateStatistics(attempts, gameDuration) {
+      const stats = JSON.parse(localStorage.getItem('gameStats')) || { totalGames: 0, totalAttempts: 0, totalTime: 0 };
+      stats.totalGames++;
+      stats.totalAttempts += attempts;
+      stats.totalTime += gameDuration;
+      localStorage.setItem('gameStats', JSON.stringify(stats));
+    }
+
+    
+  // Event listener untuk tombol Enter
+  document.addEventListener('DOMContentLoaded', function () {
+    const guessInput = document.getElementById('guess');
+    if (guessInput) {
+      guessInput.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.keyCode === 13) {
+          event.preventDefault(); // Mencegah perilaku default (misalnya, submit form)
+          makeGuess(); // Panggil fungsi makeGuess
+        }
+      });
+    }
+  });
+
+    // Gabungkan semua logika ke dalam satu window.onload
+    window.onload = function () {
+      // Tampilkan splash screen dan otomatis tutup setelah 3 detik
+      const splashScreen = document.getElementById('splashScreen');
+      if (splashScreen) {
+        setTimeout(() => {
+          splashScreen.style.display = 'none';
+        }, 2600);
+      }
+      // Restore Zaz theme jika sebelumnya aktif
+      if(localStorage.getItem('theme') === 'zaz') {
+        document.body.classList.add('zaz-theme');
+        document.getElementById('zazThemeBtn').classList.add('active');
+      }
+      // Tampilkan menu utama saat halaman dimuat
+      const mainMenu = document.getElementById('mainMenu');
+      const gameArea = document.getElementById('gameArea');
+      if (mainMenu && gameArea) {
+        mainMenu.style.display = 'block';
+        gameArea.style.display = 'none';
+      }
+    };
+
+    // Fungsi untuk menampilkan confetti saat menang
+    function showConfetti(amount = 10) {
+      const confettiContainer = document.getElementById('confettiContainer');
+      if (!confettiContainer) {
+        console.error('Confetti container tidak ditemukan!');
+        return;
+      }
+      for (let i = 0; i < amount; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        const colors = ['#FFC107', '#FF5722', '#8BC34A', '#00BCD4', '#E91E63', '#9C27B0', '#3F51B5'];
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.animationDelay = Math.random() * 2 + 's';
+        confettiContainer.appendChild(confetti);
+      }
+      setTimeout(() => {
+        confettiContainer.innerHTML = ''; // Bersihkan semua elemen confetti
+      }, 5000); // Durasi diperpendek menjadi 5 detik
+    }
+
+    function closeVerificationModal() {
+      const modal = document.getElementById('verificationModal');
+      if (modal) {
+        modal.style.display = 'none';
+      } else {
+        console.error('Modal verifikasi tidak ditemukan!');
+      }
+    }
+
+    function toggleTheme() {
+      const body = document.body;
+      const themeToggle = document.getElementById('themeToggle');
+      const isLightMode = body.classList.toggle('light-mode');
+      themeToggle.textContent = isLightMode ? '🌞 Light Mode' : '🌙 Dark Mode';
+    }
+
+    function showChangelog() {
+      document.getElementById('changelogModal').style.display = 'flex';
+    }
+
+    function closeChangelog() {
+      document.getElementById('changelogModal').style.display = 'none';
+    }
+
+    let aiNumber = Math.floor(Math.random() * 100) + 1;
+    let playerAttempts = 0;
+    let aiAttempts = 0;
+    let aiMin = 1;
+    let aiMax = 100;
+
+    function startAIMode() {
+      const mainMenu = document.getElementById('mainMenu');
+      const aiMode = document.getElementById('aiMode');
+
+      if (mainMenu && aiMode) {
+        mainMenu.style.display = 'none'; // Sembunyikan menu utama
+        aiMode.style.display = 'block'; // Tampilkan mode AI
+
+        // Reset variabel untuk permainan AI
+        aiNumber = Math.floor(Math.random() * 100) + 1;
+        playerAttempts = 0;
+        aiAttempts = 0;
+        aiMin = 1;
+        aiMax = 100;
+
+        // Reset tampilan feedback dan hasil
+        document.getElementById('aiFeedback').textContent = '';
+        document.getElementById('playerFeedback').textContent = '';
+        document.getElementById('aiResult').textContent = '';
+        document.getElementById('playerResult').textContent = '';
+
+        const difficulty = document.getElementById('aiDifficulty').value;
+        console.log(`Mode AI dimulai. Tingkat kesulitan: ${difficulty}`);
+
+        // Mulai tebakan AI
+        aiMakeGuess();
+      } else {
+        console.error("Elemen mainMenu atau aiMode tidak ditemukan!");
+      }
+    }
+
+    function playerMakeGuess() {
+      const playerGuess = Number(document.getElementById('playerGuess').value);
+      playerAttempts++;
+      if (playerGuess === aiNumber) {
+        document.getElementById('playerResult').textContent = `🎉 Anda menang dalam ${playerAttempts} percobaan!`;
+        document.getElementById('aiResult').textContent = `🤖 AI kalah dengan ${aiAttempts} percobaan.`;
+      } else if (playerGuess < aiNumber) {
+        document.getElementById('playerFeedback').textContent = 'Terlalu kecil! 👇';
+      } else {
+        document.getElementById('playerFeedback').textContent = 'Terlalu besar! 👆';
+      }
+      document.getElementById('playerGuess').value = '';
+      document.getElementById('playerGuess').focus();
+    }
+
+    function aiMakeGuess() {
+      const difficulty = document.getElementById('aiDifficulty').value; // Ambil tingkat kesulitan
+      let aiGuess;
+
+      if (difficulty === 'easy') {
+        // Easy: AI menebak angka secara acak
+aiGuess = Math.floor(Math.random() * (aiMax - aiMin + 1)) + aiMin;
+      } else if (difficulty === 'medium') {
+        // Medium: AI menggunakan binary search
+        aiGuess = Math.floor((aiMin + aiMax) / 2);
+      } else if (difficulty === 'hard') {
+        // Hard: AI menebak angka dengan sedikit "kesalahan" untuk membuatnya lebih sulit
+        const bias = Math.random() < 0.5 ? -1 : 1; // Tambahkan bias untuk membuat tebakan tidak selalu optimal
+        aiGuess = Math.floor((aiMin + aiMax) / 2) + bias;
+        aiGuess = Math.max(aiMin, Math.min(aiMax, aiGuess)); // Pastikan tebakan tetap dalam rentang
+      }
+
+      aiAttempts++;
+
+      if (aiGuess === aiNumber) {
+        document.getElementById('aiResult').textContent = `🤖 AI menang dalam ${aiAttempts} percobaan!`;
+      } else if (aiGuess < aiNumber) {
+        aiMin = aiGuess + 1;
+        document.getElementById('aiFeedback').textContent = `AI menebak ${aiGuess}: Terlalu kecil! 👇`;
+        setTimeout(aiMakeGuess, 1000);
+      } else {
+        aiMax = aiGuess - 1;
+        document.getElementById('aiFeedback').textContent = `AI menebak ${aiGuess}: Terlalu besar! 👆`;
+        setTimeout(aiMakeGuess, 1000);
+      }
+    }
+
+    function resetAIMode() {
+      const aiMode = document.getElementById('aiMode');
+      const mainMenu = document.getElementById('mainMenu');
+      if (aiMode && mainMenu) {
+        aiMode.style.display = 'none';
+        mainMenu.style.display = 'block';
+        aiNumber = Math.floor(Math.random() * 100) + 1;
+        playerAttempts = 0;
+        aiAttempts = 0;
+        aiMin = 1;
+        aiMax = 100;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const aiMode = document.getElementById('aiMode');
+      if (!aiMode) {
+        console.error("Elemen Mode AI tidak ditemukan!");
+      }
+    });
+
+    // === TEMA BARU v3.2 ===
+    function changeTheme() {
+      const theme = document.getElementById('themeSelect').value;
+      document.body.classList.remove('light-mode', 'neon', 'custom-theme', 'rainbow-theme', 'orion-theme', 'cyber-theme');
+      if (theme === 'light') {
+        document.body.classList.add('light-mode');
+        document.body.style.background = "#f4f4f4";
+        document.getElementById('customThemePicker').style.display = "none";
+      } else if (theme === 'neon') {
+        document.body.classList.add('neon');
+        document.body.style.background = "linear-gradient(135deg, #0fffc1, #7e0fff 80%)";
+        document.getElementById('customThemePicker').style.display = "none";
+      } else if (theme === 'custom') {
+        document.body.classList.add('custom-theme');
+        document.getElementById('customThemePicker').style.display = "inline-block";
+        applyCustomTheme();
+      } else if (theme === 'rainbow') {
+        document.body.classList.add('rainbow-theme');
+        document.body.style.background = ""; // biar pakai CSS rainbow-theme
+        document.getElementById('customThemePicker').style.display = "none";
+      } else if (theme === 'orion') {
+        document.body.classList.add('orion-theme');
+        document.body.style.background = "";
+        document.getElementById('customThemePicker').style.display = "none";
+      } else if (theme === 'cyber') {
+        document.body.classList.add('cyber-theme');
+        document.body.style.background = "";
+        document.getElementById('customThemePicker').style.display = "none";
+      } else {
+        // Default: dark
+        document.body.style.background = "linear-gradient(135deg, #6a11cb, #2575fc)";
+        document.getElementById('customThemePicker').style.display = "none";
+      }
+    }
+
+    function applyCustomTheme() {
+      const color1 = document.getElementById('color1').value;
+      const color2 = document.getElementById('color2').value;
+      document.body.classList.add('custom-theme');
+      document.body.style.background = `linear-gradient(135deg, ${color1}, ${color2})`;
+    }
+
+    // Set tema default saat load
+    document.addEventListener('DOMContentLoaded', function () {
+      updateCoinDisplay();
+  refreshThemeOptions();
+  changeTheme();
+    });
+    
+    // KOIN
+let userCoins = Number(localStorage.getItem('userCoins') || 0);
+function updateCoinDisplay() {
+  let el = document.getElementById('coinDisplay');
+  if (!el) return;
+  el.style.display = 'block';
+  el.textContent = `💰 Koin: ${userCoins}`;
+}
+
+// QUEST SYSTEM
+const QUESTS = [
+  { id: "daily1", type: "daily", desc: "Main 1x hari ini", goal: 1, reward: 10 },
+  { id: "daily2", type: "daily", desc: "Menang 2x hari ini", goal: 2, reward: 20 },
+  { id: "weekly1", type: "weekly", desc: "Main 5x minggu ini", goal: 5, reward: 30 },
+  { id: "weekly2", type: "weekly", desc: "Menang 7x minggu ini", goal: 7, reward: 40 }
+];
+function getQuestKey(type) {
+  const now = new Date();
+  if (type === "daily") {
+    return "quest_daily_" + now.getFullYear() + "_" + now.getMonth() + "_" + now.getDate();
+  } else {
+    const firstDay = new Date(now.getFullYear(),0,1);
+    const week = Math.ceil((((now - firstDay) / 86400000) + firstDay.getDay()+1)/7);
+    return "quest_weekly_" + now.getFullYear() + "_w" + week;
+  }
+}
+function loadQuestProgress() {
+  let daily = JSON.parse(localStorage.getItem(getQuestKey("daily"))||"{}");
+  let weekly = JSON.parse(localStorage.getItem(getQuestKey("weekly"))||"{}");
+  return { daily, weekly };
+}
+function saveQuestProgress(type, data) {
+  localStorage.setItem(getQuestKey(type), JSON.stringify(data));
+}
+function updateQuestProgress(type, id, add=1) {
+  const progress = loadQuestProgress();
+  if(!progress[type][id]) progress[type][id]=0;
+  progress[type][id] += add;
+  saveQuestProgress(type, progress[type]);
+  // Notif jika selesai
+  const quest = QUESTS.find(q=>q.id===id);
+  if(progress[type][id]===quest.goal) {
+    showQuestNotif(`🎉 Quest "${quest.desc}" selesai! +${quest.reward} koin`);
+    userCoins += quest.reward;
+    localStorage.setItem('userCoins', userCoins);
+    updateCoinDisplay();
+  }
+}
+function showQuestNotif(msg) {
+  let notif = document.createElement('div');
+  notif.style.position = 'fixed';
+  notif.style.bottom = '30px';
+  notif.style.left = '50%';
+  notif.style.transform = 'translateX(-50%)';
+  notif.style.background = '#333';
+  notif.style.color = '#ffd700';
+  notif.style.padding = '14px 28px';
+  notif.style.borderRadius = '18px';
+  notif.style.fontWeight = 'bold';
+  notif.style.fontSize = '18px';
+  notif.style.zIndex = 9999;
+  notif.textContent = msg;
+  document.body.appendChild(notif);
+  setTimeout(()=>notif.remove(), 3000);
+}
+function showQuestPopup() {
+  let modal = document.getElementById('questModal');
+  let progress = loadQuestProgress();
+  let html = `<div class="modal-content"><h2>🎯 Quest Harian & Mingguan</h2><ul style="text-align:left;">`;
+  QUESTS.forEach(q=>{
+    let prog = (progress[q.type][q.id]||0);
+    let done = prog>=q.goal;
+    html += `<li>
+      <b>${q.desc}</b> <span style="color:#f39c12;">(+${q.reward} koin)</span><br>
+      <div style="background:#eee;border-radius:8px;overflow:hidden;width:90%;margin:4px 0;">
+        <div style="background:${done?'#4caf50':'#2196f3'};height:12px;width:${Math.min(100,prog/q.goal*100)}%"></div>
+      </div>
+      <span style="font-size:13px;">${prog}/${q.goal} ${done?'<span style="color:#4caf50;">✔️ Selesai</span>':''}</span>
+    </li>`;
+  });
+  html += `</ul><button onclick="closeQuestPopup()">Tutup</button></div>`;
+  modal.innerHTML = html;
+  modal.style.display = 'flex';
+}
+function closeQuestPopup() {
+  document.getElementById('questModal').style.display = 'none';
+}
+
+// SHOP TEMA EKSKLUSIF
+const THEME_SHOP = [
+  { id: "rainbow", name: "🌈 Rainbow", price: 100, desc: "Tema animasi pelangi super keren!" },
+  { id: "orion", name: "🪐 Orion", price: 80, desc: "Tema galaksi biru gelap elegan." },
+  { id: "cyber", name: "🤖 Tea Cyber", price: 60, desc: "Tema cyber biru modern." }
+];
+function getOwnedThemes() {
+  return JSON.parse(localStorage.getItem("ownedThemes")||"[]");
+}
+function setOwnedThemes(arr) {
+  localStorage.setItem("ownedThemes", JSON.stringify(arr));
+}
+function showThemeShop() {
+  let owned = getOwnedThemes();
+  let html = `<div class="modal-content"><h2>🛒 Shop Tema Eksklusif</h2><ul style="text-align:left;">`;
+  THEME_SHOP.forEach(t => {
+    const bought = owned.includes(t.id);
+    html += `<li style="margin-bottom:12px;">
+      <b>${t.name}</b> <span style="color:#f39c12;">${t.price} koin</span><br>
+      <span style="font-size:13px;">${t.desc}</span><br>
+      ${bought ? `<span style="color:#4caf50;">Sudah dibeli ✔️</span>` :
+      `<button onclick="buyTheme('${t.id}',${t.price})">Beli</button>`}
+    </li>`;
+  });
+  html += `</ul><button onclick="closeThemeShop()">Tutup</button></div>`;
+  let modal = document.getElementById('themeShopModal');
+  modal.innerHTML = html;
+  modal.style.display = 'flex';
+}
+function closeThemeShop() {
+  document.getElementById('themeShopModal').style.display = 'none';
+  refreshThemeOptions();
+}
+function buyTheme(id, price) {
+  if(userCoins < price) {
+    alert("Koin tidak cukup!");
+    return;
+  }
+  let owned = getOwnedThemes();
+  if(owned.includes(id)) return;
+  userCoins -= price;
+  localStorage.setItem('userCoins', userCoins);
+  updateCoinDisplay();
+  owned.push(id);
+  setOwnedThemes(owned);
+  closeThemeShop();
+  refreshThemeOptions();
+  alert("Berhasil membeli tema! Silakan pilih di menu tema.");
+}
+function unlockThemeOption(id) {
+  const select = document.getElementById('themeSelect');
+  const idx = {rainbow:4, orion:5, cyber:6}[id];
+  if(select && select.options[idx]) {
+    select.options[idx].disabled = false;
+  }
+}
+function refreshThemeOptions() {
+  const owned = getOwnedThemes();
+  ["rainbow","orion","cyber"].forEach((id)=>{
+    if(owned.includes(id)) unlockThemeOption(id);
+  });
+}
+  </script>
+</body>
+</html>
