@@ -3,329 +3,538 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TebakX v3.5 Zaz Version</title>
+  <title>TebakX v3.6 NCS Winter Edition</title>
   <!-- Google Fonts untuk tampilan modern -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Mountains+of+Christmas&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --primary: #374151;      /* abu gelap */
-      --secondary: #a7c7e7;    /* biru muda pastel */
-      --accent: #fbbf24;       /* kuning gold */
-      --bg: #f3f4f6;           /* abu muda */
-      --text: #222;
-      --radius: 18px;
-      --shadow: 0 8px 32px rgba(55,65,81,0.10), 0 1.5px 6px #37415122;
+      --primary: #1e40af;      /* biru gelap */
+      --secondary: #3b82f6;    /* biru sedang */
+      --accent: #f59e0b;       /* kuning gold */
+      --bg: #f8fafc;           /* abu muda */
+      --text: #1e293b;         /* teks gelap */
+      --radius: 16px;
+      --shadow: 0 10px 25px rgba(0,0,0,0.1);
+      --winter-primary: #0c4a6e; /* biru gelap musim dingin */
+      --winter-secondary: #0ea5e9; /* biru muda es */
+      --winter-accent: #f0f9ff; /* putih salju */
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    
     html, body {
       min-height: 100vh;
       width: 100vw;
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, var(--primary), var(--secondary) 90%);
       color: var(--text);
-      transition: background 0.5s;
       overflow-x: hidden;
-    }
-    body.zaz-theme {
-      background: linear-gradient(135deg, #23272f 0%, #a7c7e7 100%);
-      color: #f3f4f6;
-    }
-    body.zaz-theme .container {
-      background: #23272f;
-      color: #fbbf24;
-      box-shadow: 0 0 30px #23272f, 0 0 60px #a7c7e7;
-    }
-    body.zaz-theme h1,
-    body.zaz-theme .modal-content h2 {
-      color: #fbbf24;
-      text-shadow: 0 2px 12px #23272f;
-    }
-    body.zaz-theme p,
-    body.zaz-theme .result,
-    body.zaz-theme .guesses,
-    body.zaz-theme .hint,
-    body.zaz-theme .feedback,
-    body.zaz-theme .highscore,
-    body.zaz-theme .stats,
-    body.zaz-theme .credits,
-    body.zaz-theme .level {
-      color: #e0e7ef;
-    }
-    body.zaz-theme button,
-    body.zaz-theme select {
-      background: linear-gradient(90deg, #374151, #a7c7e7);
-      color: #fbbf24;
-      border: 2px solid #fbbf24;
-      text-shadow: 0 0 8px #23272f;
-    }
-    body.zaz-theme button:hover {
-      background: linear-gradient(90deg, #a7c7e7, #374151);
-      color: #23272f;
-    }
-    body.zaz-theme .modal-content {
-      background: #23272f;
-      color: #fbbf24;
-    }
-    body.zaz-theme #coinDisplay {
-      background: #fbbf24;
-      color: #23272f;
-      box-shadow: 0 2px 8px #fbbf2455;
-    }
-    body.zaz-theme .splash-screen {
-      background: linear-gradient(135deg, #23272f 0%, #a7c7e7 100%);
-    }
-    body.zaz-theme .splash-content h1 {
-      color: #fbbf24;
-      text-shadow: 0 2px 12px #23272f;
-    }
-    body.zaz-theme .splash-bar-inner {
-      background: linear-gradient(90deg, #fbbf24, #a7c7e7, #374151);
-    }
-    /* Zaz Theme Button */
-    #zazThemeBtn {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      background: #23272f;
-      color: #fbbf24;
-      border: none;
-      border-radius: 50%;
-      width: 42px;
-      height: 42px;
-      font-size: 1.3em;
-      font-weight: bold;
-      z-index: 10001;
-      box-shadow: 0 2px 8px #23272f44;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    #zazThemeBtn.active,
-    #zazThemeBtn:hover {
-      background: #fbbf24;
-      color: #23272f;
-    }
-    @media (max-width: 480px) {
-      #zazThemeBtn { width: 38px; height: 38px; font-size: 1.1em; }
-    }
-    .container {
-      background: var(--bg);
-      color: var(--primary);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      max-width: 420px;
-      width: 100%;
-      margin: 32px auto 0 auto;
-      padding: 32px 24px 28px 24px;
-      text-align: center;
-      animation: fadeIn 0.7s cubic-bezier(.4,2,.6,1);
       position: relative;
     }
+    
+    /* Animasi Salju */
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      z-index: 9999;
+      user-select: none;
+      cursor: default;
+      animation: snowfall linear infinite;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1em;
+    }
+    @keyframes snowfall {
+      0% { transform: translateY(-100px) rotate(0deg); }
+      100% { transform: translateY(100vh) rotate(360deg); }
+    }
+    
+    /* Efek Beku */
+    .frost-effect {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></svg>');
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.3;
+    }
+    
+    /* Tombol Tema */
+    .theme-btn {
+      position: fixed;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      z-index: 10001;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+    
+    #zazThemeBtn {
+      top: 15px;
+      left: 15px;
+      background: #1e293b;
+      color: #f59e0b;
+    }
+    
+    #winterThemeBtn {
+      top: 75px;
+      left: 15px;
+      background: #0c4a6e;
+      color: #e0f2fe;
+    }
+    
+    .theme-btn:hover, .theme-btn.active {
+      transform: scale(1.1);
+    }
+    
+    #zazThemeBtn.active {
+      background: #f59e0b;
+      color: #1e293b;
+    }
+    
+    #winterThemeBtn.active {
+      background: #e0f2fe;
+      color: #0c4a6e;
+    }
+    
+    /* Tombol Kembali */
+    .back-btn {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      z-index: 10001;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+    
+    .back-btn:hover {
+      transform: scale(1.1);
+      background: white;
+    }
+    
+    /* Container */
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      max-width: 500px;
+      width: 90%;
+      margin: 20px auto;
+      padding: 30px;
+      text-align: center;
+      animation: fadeIn 0.7s ease;
+      position: relative;
+      z-index: 2;
+      backdrop-filter: blur(10px);
+    }
+    
     @media (max-width: 600px) {
       .container {
-        margin: 16px auto 0 auto;
-        padding: 18px 4vw 18px 4vw;
-        max-width: 99vw;
+        width: 95%;
+        margin: 15px auto;
+        padding: 20px;
       }
     }
+    
+    /* Typography */
     h1 {
-      font-size: 2.1em;
-      margin-bottom: 10px;
+      font-size: 2.2rem;
+      margin-bottom: 15px;
       color: var(--primary);
-      letter-spacing: 1px;
       font-weight: 700;
-      text-shadow: 0 2px 12px #fff3;
+      line-height: 1.2;
     }
+    
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+      font-weight: 600;
+    }
+    
     p {
-      margin-bottom: 18px;
-      color: #6d2b4b;
-      font-size: 1.08em;
+      margin-bottom: 20px;
+      color: #64748b;
+      font-size: 1rem;
+      line-height: 1.6;
     }
+    
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 14px 24px;
+      margin: 8px 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+    }
+    
+    .btn-secondary {
+      background: linear-gradient(135deg, #8b5cf6, #a855f7);
+      color: white;
+    }
+    
+    .btn-secondary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+    }
+    
+    .btn-accent {
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+      color: white;
+    }
+    
+    .btn-accent:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
+    }
+    
+    .btn-success {
+      background: linear-gradient(135deg, #10b981, #34d399);
+      color: white;
+    }
+    
+    .btn-danger {
+      background: linear-gradient(135deg, #ef4444, #f87171);
+      color: white;
+    }
+    
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+    
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      background: white;
+      color: var(--text);
+      transition: all 0.3s ease;
+      outline: none;
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+    
+    /* Cards */
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    
+    .card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      font-size: 1.2rem;
+    }
+    
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    
+    .card-body {
+      color: #64748b;
+    }
+    
+    /* Daily Challenge Card */
+    .daily-challenge {
+      background: linear-gradient(135deg, #0ea5e9, #7dd3fc);
+      color: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+    }
+    
+    .daily-challenge .card-title {
+      color: white;
+    }
+    
+    .daily-challenge .card-body {
+      color: rgba(255,255,255,0.9);
+    }
+    
+    .daily-challenge .btn {
+      background: white;
+      color: #0ea5e9;
+      margin-top: 15px;
+    }
+    
+    .daily-challenge .btn:hover {
+      background: rgba(255,255,255,0.9);
+    }
+    
+    /* Theme Picker */
     .theme-picker {
-      margin: 10px 0 20px 0;
+      margin: 20px 0;
+      text-align: left;
+    }
+    
+    .theme-picker select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      background: white;
+      color: var(--primary);
+      outline: none;
+      cursor: pointer;
+    }
+    
+    /* Game Area */
+    .game-stats {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+    
+    .stat-item {
+      background: #f1f5f9;
+      border-radius: 12px;
+      padding: 15px;
+      flex: 1;
+      min-width: 120px;
+      margin: 5px;
       text-align: center;
     }
-    .theme-picker label {
-      margin-right: 10px;
-      font-weight: bold;
+    
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
       color: var(--primary);
     }
-    .theme-picker select {
-      padding: 7px 14px;
-      border-radius: 8px;
-      border: 1.5px solid var(--primary);
-      font-size: 15px;
-      background: #fff;
-      color: var(--primary);
-      margin-right: 10px;
-      outline: none;
-      transition: border 0.3s;
+    
+    .stat-label {
+      font-size: 0.85rem;
+      color: #64748b;
+      margin-top: 5px;
     }
-    .theme-picker input[type="color"] {
-      border: none;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      margin: 0 5px;
-      cursor: pointer;
-      vertical-align: middle;
-      box-shadow: 0 0 4px #888;
-    }
-    input[type="number"], input[type="text"] {
-      width: 100%;
-      padding: 13px 12px;
-      margin-bottom: 15px;
-      font-size: 17px;
-      border: 2px solid #e0e0e0;
-      border-radius: 10px;
-      transition: border-color 0.3s;
-      background: #fff;
-      color: var(--primary);
-      outline: none;
-    }
-    input[type="number"]:focus, input[type="text"]:focus {
-      border-color: var(--primary);
-      background: #fff7fa;
-    }
-    button {
-      padding: 12px 22px;
-      font-size: 1.08em;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      margin: 7px 6px 7px 0;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      color: #fff;
+    
+    /* Result Display */
+    .result-display {
+      background: #f1f5f9;
+      border-radius: 12px;
+      padding: 15px;
+      margin: 15px 0;
       font-weight: 600;
-      box-shadow: 0 2px 8px #e91e6322;
-      transition: background 0.3s, transform 0.18s;
-      outline: none;
-    }
-    button:hover, button:focus {
-      background: linear-gradient(90deg, var(--secondary), var(--primary));
       color: var(--primary);
-      transform: translateY(-2px) scale(1.04);
     }
-    button:disabled {
-      background: #eee;
-      color: #bbb;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-    #resetBtn { background: linear-gradient(90deg, #ff9800, #ffe0b2); color: #fff; }
-    #hintBtn { background: linear-gradient(90deg, #4caf50, #b2ffb2); color: #fff; }
-    #shareBtn { background: linear-gradient(90deg, #9c27b0, #f3e5f5); color: #fff; }
-    .clear-buttons button { background: linear-gradient(90deg, #e91e63, #fce4ec); color: #fff; }
-    .result, .guesses, .hint, .feedback, .highscore, .stats, .credits {
-      font-size: 1.08em;
-      margin-bottom: 10px;
-      color: #6d2b4b;
-    }
-    .result { font-weight: bold; color: var(--primary); }
-    .level { font-size: 1.1em; color: #e91e63; margin-top: 10px; }
+    
+    /* Modal */
     .modal {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.55);
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.7);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 2000;
-      animation: fadeIn 0.4s;
+      animation: fadeIn 0.4s ease;
+      padding: 20px;
     }
+    
     .modal-content {
-      background: #fff0f6;
-      padding: 28px 22px 18px 22px;
-      border-radius: 18px;
-      text-align: center;
-      max-width: 400px;
-      width: 92vw;
-      box-shadow: 0 8px 32px #e91e6322;
-      color: #e91e63;
-      animation: fadeIn 0.5s;
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      animation: slideUp 0.5s ease;
     }
-    .modal-content h2 { margin-bottom: 15px; color: #e91e63; }
-    .modal-content ul { list-style: none; padding: 0; margin: 0; }
-    .modal-content ul li { margin-bottom: 10px; color: #b71c50; }
-    .modal-content button {
-      padding: 12px 28px;
-      font-size: 1.1em;
-      border-radius: 10px;
-      margin-top: 14px;
-      min-width: 120px;
-      background: linear-gradient(90deg, #e91e63, #fce4ec);
-      color: #fff;
+    
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
-    .modal-content button:hover {
-      background: linear-gradient(90deg, #fce4ec, #e91e63);
-      color: #e91e63;
-    }
-    @media (max-width: 480px) {
-      .modal-content { padding: 15px; font-size: 14px; }
-      .modal-content button { width: 100%; font-size: 1.15em; padding: 14px 0; }
-    }
-    /* Splash Screen Styles */
+    
+    /* Splash Screen */
     .splash-screen {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: linear-gradient(135deg, #e91e63, #fce4ec 90%);
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 3000;
       flex-direction: column;
-      animation: fadeIn 0.7s;
+      animation: fadeIn 0.7s ease;
     }
+    
     .splash-content {
       text-align: center;
-      color: #fff;
-      font-family: 'Roboto', sans-serif;
-      animation: fadeIn 0.5s;
+      color: white;
+      animation: fadeIn 0.5s ease;
     }
+    
+    .splash-logo {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4);
+      color: white;
+    }
+    
     .splash-content h1 {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       margin-bottom: 10px;
-      color: #e91e63;
-      text-shadow: 0 2px 12px #fce4ec;
+      color: white;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
     }
-    .splash-content p {
+    
+    .splash-content .version {
       font-size: 1.2rem;
-      margin-bottom: 10px;
-      color: #fff;
+      margin-bottom: 20px;
+      color: rgba(255,255,255,0.9);
     }
-    .splash-content ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 20px;
-      color: #fff;
-    }
-    .splash-content ul li {
-      font-size: 1rem;
-      margin-bottom: 5px;
-    }
+    
     .splash-bar {
-      width: 220px;
-      height: 16px;
-      background: #fff3;
+      width: 250px;
+      height: 8px;
+      background: rgba(255,255,255,0.2);
       border-radius: 10px;
-      margin: 24px auto 0 auto;
+      margin: 30px auto;
       overflow: hidden;
-      box-shadow: 0 2px 8px #e91e6322;
     }
+    
     .splash-bar-inner {
       height: 100%;
       width: 0;
-      background: linear-gradient(90deg, #ffe53b, #ff0080, #00ffb2, #1c92d2);
+      background: linear-gradient(90deg, #f59e0b, #fbbf24);
       border-radius: 10px;
-      animation: splashBarAnim 2.2s linear forwards;
+      animation: splashBarAnim 2.5s linear forwards;
     }
+    
     @keyframes splashBarAnim {
       0% { width: 0; }
       100% { width: 100%; }
     }
-    /* Confetti Styles */
+    
+    .splash-features {
+      margin-top: 30px;
+      text-align: left;
+      max-width: 400px;
+    }
+    
+    .splash-features ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .splash-features li {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      color: rgba(255,255,255,0.9);
+    }
+    
+    .splash-features li i {
+      margin-right: 10px;
+      color: #f59e0b;
+    }
+    
+    /* Confetti */
     .confetti-container {
       position: fixed;
       top: 0;
@@ -336,6 +545,7 @@
       overflow: visible;
       z-index: 1000;
     }
+    
     .confetti {
       position: absolute;
       top: -10px;
@@ -345,474 +555,1007 @@
       transform: rotate(0deg);
       animation: confetti-fall 7s linear infinite;
     }
+    
     @keyframes confetti-fall {
       0% { transform: translateY(0) rotate(0deg); opacity: 1; }
       100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
     }
-    /* Zaz Theme Button */
-    #zazThemeBtn {
+    
+    /* Notification */
+    .notification {
       position: fixed;
-      top: 10px;
-      left: 10px;
-      background: #23272f;
-      color: #fbbf24;
-      border: none;
-      border-radius: 50%;
-      width: 42px;
-      height: 42px;
-      font-size: 1.3em;
-      font-weight: bold;
-      z-index: 10001;
-      box-shadow: 0 2px 8px #23272f44;
-      cursor: pointer;
-      transition: background 0.3s;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      color: white;
+      padding: 16px 24px;
+      border-radius: 50px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(30, 64, 175, 0.3);
+      z-index: 9999;
+      animation: slideUp 0.5s ease, fadeOut 0.5s ease 2.5s forwards;
     }
-    #zazThemeBtn.active,
-    #zazThemeBtn:hover {
-      background: #fbbf24;
-      color: #23272f;
+    
+    @keyframes fadeOut {
+      to { opacity: 0; transform: translateX(-50%) translateY(20px); }
     }
+    
+    /* Achievement Notification */
+    .achievement-notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+      color: white;
+      padding: 16px 20px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
+      z-index: 10000;
+      max-width: 300px;
+      animation: slideInRight 0.5s ease, fadeOut 0.5s ease 2.5s forwards;
+    }
+    
+    @keyframes slideInRight {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+    
+    /* Level Up Animation */
+    .level-up {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: linear-gradient(135deg, #10b981, #34d399);
+      color: white;
+      padding: 20px 30px;
+      border-radius: 20px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
+      z-index: 4000;
+      animation: levelUpAnim 2s ease-out forwards;
+    }
+    
+    @keyframes levelUpAnim {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+    }
+    
+    /* Combo Effect */
+    .combo-effect {
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: linear-gradient(135deg, #ef4444, #f87171);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 50px;
+      font-size: 1.8rem;
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
+      z-index: 4000;
+      animation: comboAnim 1.5s ease-out forwards;
+    }
+    
+    @keyframes comboAnim {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+    }
+    
+    /* Lightning Effect */
+    .lightning-effect {
+      animation: lightning 0.5s ease-in-out infinite alternate;
+    }
+    
+    @keyframes lightning {
+      0% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #3b82f6, 0 0 35px #3b82f6, 0 0 40px #3b82f6; }
+      100% { text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 8px #fff, 0 0 12px #3b82f6, 0 0 18px #3b82f6, 0 0 25px #3b82f6; }
+    }
+    
+    /* Progress Bar */
+    .progress {
+      height: 10px;
+      background: #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      border-radius: 10px;
+      transition: width 0.5s ease;
+    }
+    
+    /* List */
+    .list-group {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+    }
+    
+    .list-group-item {
+      background: #f1f5f9;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .list-group-item:hover {
+      background: #e2e8f0;
+    }
+    
+    /* Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .grid-item {
+      background: #f1f5f9;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    .grid-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    /* Coin Display */
+    .coin-display {
+      position: fixed;
+      top: 15px;
+      right: 70px;
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+    }
+    
+    .coin-display i {
+      margin-right: 8px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      h1 { font-size: 1.8rem; }
+      h2 { font-size: 1.5rem; }
+      .container { padding: 20px; }
+      .btn { padding: 12px 20px; font-size: 0.9rem; }
+      .coin-display { 
+        top: 10px; 
+        right: 60px; 
+        padding: 8px 16px; 
+        font-size: 0.9rem; 
+      }
+      .theme-btn, .back-btn { 
+        width: 42px; 
+        height: 42px; 
+        font-size: 1rem; 
+      }
+      #zazThemeBtn { top: 10px; left: 10px; }
+      #winterThemeBtn { top: 60px; left: 10px; }
+    }
+    
     @media (max-width: 480px) {
-      #zazThemeBtn { width: 38px; height: 38px; font-size: 1.1em; }
+      h1 { font-size: 1.5rem; }
+      .container { width: 98%; margin: 10px auto; padding: 15px; }
+      .game-stats { flex-direction: column; }
+      .stat-item { margin: 5px 0; }
+      .grid { grid-template-columns: repeat(2, 1fr); }
     }
-    /* Responsive tweaks */
-    @media (max-width: 480px) {
-      h1 { font-size: 1.3em; }
-      .container { padding: 10px 2vw 14px 2vw; }
-      .theme-picker label, .theme-picker select { font-size: 0.98em; }
-      button { font-size: 1em; padding: 10px 10px; }
-      .level { font-size: 1em; }
+    
+    /* Utility Classes */
+    .text-center { text-align: center; }
+    .text-left { text-align: left; }
+    .text-right { text-align: right; }
+    .mt-10 { margin-top: 10px; }
+    .mt-20 { margin-top: 20px; }
+    .mb-10 { margin-bottom: 10px; }
+    .mb-20 { margin-bottom: 20px; }
+    .d-flex { display: flex; }
+    .justify-between { justify-content: space-between; }
+    .align-center { align-items: center; }
+    .flex-column { flex-direction: column; }
+    .w-100 { width: 100%; }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
+    
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
-  <!-- Zaz Theme Button -->
-  <button id="zazThemeBtn" title="Aktifkan/Matikan Zaz Version">Z</button>
+  <!-- Tombol Tema -->
+  <button id="zazThemeBtn" class="theme-btn" title="Aktifkan/Matikan Zaz Version">Z</button>
+  <button id="winterThemeBtn" class="theme-btn" title="Aktifkan/Matikan Winter Theme">❄️</button>
+  
+  <!-- Tombol Kembali -->
+  <button id="backBtn" class="back-btn" title="Kembali" style="display: none;">
+    <i class="fas fa-arrow-left"></i>
+  </button>
+  
+  <!-- Display Koin -->
+  <div id="coinDisplay" class="coin-display">
+    <i class="fas fa-coins"></i> <span id="coinAmount">0</span>
+  </div>
+  
   <!-- Splash Screen -->
   <div id="splashScreen" class="splash-screen">
     <div class="splash-content">
-      <img src="TebakX new logo.png" alt="Zaz Logo" style="width:90px;height:90px;border-radius:50%;box-shadow:0 4px 24px #e91e6344;margin-bottom:10px;">
-      <h1>TEBAKX v3.5<br><span style="font-size:0.7em;color:#e91e63;">Zaz Version</span></h1>
-      <div class="splash-bar"><div class="splash-bar-inner"></div></div>
-      <p style="margin-top:18px;font-weight:bold;color:#fff;">UI/UX Baru, Tema Eksklusif, Modern & Responsif!</p>
-      <ul>
-        <li>🎨 Tema eksklusif <b>Zaz Version</b></li>
-        <li>🚀 UI/UX dirombak total, lebih modern & rapi</li>
-        <li>📱 Responsif di semua perangkat</li>
-        <li>⚡ Optimisasi performa</li>
-        <li>🌟 Splash screen baru makin keren</li>
-        <li>🐞 Bug fix minor</li>
-      </ul>
-      <p style="margin-top:10px;">🔥 Powered by XOBE DEVELOPMENT</p>
-      <p style="font-size:13px;">Loading...</p>
+      <div class="splash-logo">
+        <i class="fas fa-dice-d20"></i>
+      </div>
+      <h1>TEBAKX</h1>
+      <div class="version">v3.6 NCS Winter Edition</div>
+      <div class="splash-bar">
+        <div class="splash-bar-inner"></div>
+      </div>
+      <div class="splash-features">
+        <ul>
+          <li><i class="fas fa-check-circle"></i> Desain UI/UX Modern & Responsif</li>
+          <li><i class="fas fa-check-circle"></i> Tema Musim Dingin dengan Efek Salju</li>
+          <li><i class="fas fa-check-circle"></i> Tantangan Harian & Pencapaian</li>
+          <li><i class="fas fa-check-circle"></i> Mode Versus AI yang Lebih Cerdas</li>
+          <li><i class="fas fa-check-circle"></i> Sistem Level & Combo yang Ditingkatkan</li>
+          <li><i class="fas fa-check-circle"></i> Performa Optimal di Semua Perangkat</li>
+        </ul>
+      </div>
+      <p style="margin-top: 30px; font-weight: 600;">Powered by XOBE DEVELOPMENT</p>
     </div>
   </div>
+  
   <!-- Menu Utama -->
-  <div id="mainMenu" class="container" style="display:none;">
-    <h1>TebakX v3.5 <span style="color:#e91e63;">Zaz Version</span> 🔢</h1>
-    <p>Selamat datang di TebakX Zaz Version! Siap uji instingmu dalam tantangan tebak angka? 🚀</p>
+  <div id="mainMenu" class="container hidden">
+    <h1>TebakX <span style="color: #3b82f6;">NCS Winter Edition</span></h1>
+    <p>Uji instingmu dalam tantangan tebak angka yang seru!</p>
+    
+    <!-- Daily Challenge Card -->
+    <div class="daily-challenge">
+      <div class="card-header">
+        <div class="card-icon" style="background: rgba(255,255,255,0.2);">
+          <i class="fas fa-trophy"></i>
+        </div>
+        <div class="card-title">Tantangan Harian</div>
+      </div>
+      <div class="card-body">
+        <p id="dailyChallengeDesc">Tebak angka dalam kurang dari 5 percobaan!</p>
+        <button class="btn" onclick="startDailyChallenge()">Mainkan Sekarang</button>
+      </div>
+    </div>
+    
+    <!-- Game Modes -->
+    <div class="grid">
+      <div class="grid-item">
+        <i class="fas fa-play-circle" style="font-size: 2rem; color: #3b82f6; margin-bottom: 10px;"></i>
+        <h3>Mode Classic</h3>
+        <button class="btn btn-primary w-100" onclick="showVerification()">Mulai Game</button>
+      </div>
+      <div class="grid-item">
+        <i class="fas fa-robot" style="font-size: 2rem; color: #8b5cf6; margin-bottom: 10px;"></i>
+        <h3>Mode AI</h3>
+        <button class="btn btn-secondary w-100" onclick="startAIMode()">Versus AI</button>
+      </div>
+      <div class="grid-item">
+        <i class="fas fa-bullseye" style="font-size: 2rem; color: #10b981; margin-bottom: 10px;"></i>
+        <h3>Quest</h3>
+        <button class="btn btn-success w-100" onclick="showQuestPopup()">Lihat Quest</button>
+      </div>
+      <div class="grid-item">
+        <i class="fas fa-medal" style="font-size: 2rem; color: #f59e0b; margin-bottom: 10px;"></i>
+        <h3>Achievements</h3>
+        <button class="btn btn-accent w-100" onclick="showAchievements()">Lihat</button>
+      </div>
+    </div>
+    
+    <!-- Theme Picker -->
     <div class="theme-picker">
-      <label for="themeSelect">Tema:</label>
-      <select id="themeSelect" onchange="changeTheme()">
+      <label class="form-label">Pilih Tema:</label>
+      <select id="themeSelect" class="form-control" onchange="changeTheme()">
         <option value="dark">Gelap</option>
         <option value="light">Terang</option>
         <option value="neon">Neon</option>
+        <option value="winter">❄️ Winter</option>
         <option value="custom">Custom</option>
         <option value="rainbow" disabled>🌈 Rainbow (Beli di Shop)</option>
         <option value="orion" disabled>🪐 Orion (Beli di Shop)</option>
         <option value="cyber" disabled>🤖 Tea Cyber (Beli di Shop)</option>
       </select>
-      <span id="customThemePicker" style="display:none;">
-        <label for="color1">Warna 1:</label>
-        <input type="color" id="color1" value="#6a11cb" onchange="applyCustomTheme()">
-        <label for="color2">Warna 2:</label>
-        <input type="color" id="color2" value="#2575fc" onchange="applyCustomTheme()">
-      </span>
+      <div id="customThemePicker" class="hidden mt-10">
+        <div class="d-flex align-center">
+          <label class="mr-10">Warna 1:</label>
+          <input type="color" id="color1" value="#6a11cb" onchange="applyCustomTheme()" class="mr-10">
+          <label class="mr-10">Warna 2:</label>
+          <input type="color" id="color2" value="#2575fc" onchange="applyCustomTheme()">
+        </div>
+      </div>
     </div>
-    <button onclick="showVerification()">Mulai Game 🚀</button>
-    <button onclick="startAIMode()">Versus AI 🤖</button>
-    <button onclick="showQuestPopup()">🎯 Quest</button>
-    <button onclick="showThemeShop()">🛒 Shop Tema Eksklusif</button>
-    <button id="themeToggle" onclick="toggleTheme()">🌙 Dark Mode</button>
-    <button id="changelogBtn" onclick="showChangelog()">📜 Lihat Changelog</button>
+    
+    <!-- Additional Buttons -->
+    <div class="mt-20">
+      <button class="btn btn-secondary" onclick="showThemeShop()">
+        <i class="fas fa-shopping-cart mr-5"></i> Shop Tema
+      </button>
+      <button class="btn btn-accent" onclick="showChangelog()">
+        <i class="fas fa-history mr-5"></i> Changelog
+      </button>
+      <button class="btn btn-danger" onclick="resetAllData()">
+        <i class="fas fa-trash-alt mr-5"></i> Reset Data
+      </button>
+    </div>
   </div>
-  <!-- Modal Quest -->
-  <div id="questModal" class="modal" style="display:none;"></div>
-  <!-- Modal Shop Tema -->
-  <div id="themeShopModal" class="modal" style="display:none;"></div>
+  
+  <!-- Area Permainan -->
+  <div id="gameArea" class="container hidden">
+    <h1>Mode Classic</h1>
+    <p>Tebak angka antara 1 dan 100!</p>
+    
+    <div class="game-stats">
+      <div class="stat-item">
+        <div class="stat-value" id="attemptsCount">0</div>
+        <div class="stat-label">Percobaan</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="timer">0</div>
+        <div class="stat-label">Detik</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="comboCount">0</div>
+        <div class="stat-label">Combo</div>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <input type="number" id="guess" class="form-control" placeholder="Masukkan tebakan">
+    </div>
+    
+    <div class="d-flex flex-column">
+      <button id="guessBtn" class="btn btn-primary" onclick="makeGuess()">Tebak</button>
+      <button id="hintBtn" class="btn btn-secondary" onclick="showHint()">Hint</button>
+      <button id="resetBtn" class="btn btn-danger" onclick="resetGame()" style="display: none;">Reset Game</button>
+    </div>
+    
+    <div class="result-display" id="result"></div>
+    <div class="result-display" id="feedback"></div>
+    <div class="result-display" id="hint"></div>
+    
+    <div class="mt-20">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <div class="card-title">Statistik</div>
+        </div>
+        <div class="card-body">
+          <p>Best Score: <span id="highScore">-</span></p>
+          <p>Total Games: <span id="totalGames">0</span></p>
+          <p>Win Rate: <span id="winRate">0%</span></p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mt-10">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+            <i class="fas fa-star"></i>
+          </div>
+          <div class="card-title">Level</div>
+        </div>
+        <div class="card-body">
+          <div class="progress">
+            <div class="progress-bar" id="levelProgress" style="width: 0%"></div>
+          </div>
+          <p>Level <span id="currentLevel">1</span> (<span id="levelTitle">Beginner</span>)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Mode AI -->
+  <div id="aiMode" class="container hidden">
+    <h1>Mode Versus AI</h1>
+    <p>Balapan tebak angka melawan AI! Siapa yang lebih cepat?</p>
+    
+    <div class="form-group">
+      <label class="form-label">Tingkat Kesulitan AI:</label>
+      <select id="aiDifficulty" class="form-control">
+        <option value="easy">Easy</option>
+        <option value="medium" selected>Medium</option>
+        <option value="hard">Hard</option>
+        <option value="expert">Expert</option>
+      </select>
+    </div>
+    
+    <div class="game-stats">
+      <div class="stat-item">
+        <div class="stat-value" id="playerAttempts">0</div>
+        <div class="stat-label">Percobaanmu</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="aiAttempts">0</div>
+        <div class="stat-label">Percobaan AI</div>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <input type="number" id="playerGuess" class="form-control" placeholder="Masukkan tebakan Anda">
+    </div>
+    
+    <button class="btn btn-primary" onclick="playerMakeGuess()">Tebak</button>
+    
+    <div class="mt-20">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">
+            <i class="fas fa-robot"></i>
+          </div>
+          <div class="card-title">Status AI</div>
+        </div>
+        <div class="card-body" id="aiStatus">
+          <p>AI sedang berpikir...</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mt-20">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+            <i class="fas fa-trophy"></i>
+          </div>
+          <div class="card-title">Hasil</div>
+        </div>
+        <div class="card-body">
+          <p id="aiResult"></p>
+          <p id="playerResult"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
   <!-- Modal Verifikasi -->
-  <div id="verificationModal" class="modal" style="display: none;">
+  <div id="verificationModal" class="modal hidden">
     <div class="modal-content">
       <h2>Verifikasi</h2>
       <p>Masukkan kode verifikasi: <strong>zaS nEON</strong></p>
-      <input type="text" id="verificationInput" placeholder="Ketik kode verifikasi">
-      <button onclick="verifyUser()">Verifikasi</button>
-      <button onclick="closeVerificationModal()">Tutup</button>
+      <div class="form-group">
+        <input type="text" id="verificationInput" class="form-control" placeholder="Ketik kode verifikasi">
+      </div>
+      <div class="d-flex">
+        <button class="btn btn-primary" onclick="verifyUser()">Verifikasi</button>
+        <button class="btn btn-secondary" onclick="closeVerificationModal()">Tutup</button>
+      </div>
     </div>
   </div>
-  <!-- Area Permainan (disembunyikan saat awal) -->
-  <div id="gameArea" class="container" style="display: none;">
-    <p>Tebak angka antara 1 dan 100!</p>
-    <input type="number" id="guess" placeholder="Masukkan tebakan">
-    <div class="btn-group">
-      <button id="guessBtn" onclick="makeGuess()">Tebak</button>
-      <button id="resetBtn" onclick="resetGame()" style="display: none;">Reset 🔄</button>
-      <button id="hintBtn" onclick="showHint()">Hint 💡</button>
-      <button id="shareBtn" onclick="shareScore()" style="display: none;">Share Score 📤</button>
-    </div>
-    <div class="result" id="result"></div>
-    <div class="guesses" id="guesses"></div>
-    <div class="hint" id="hint"></div>
-    <div class="feedback" id="feedback"></div>
-    <div class="highscore" id="highscore"></div>
-    <div class="stats" id="stats"></div>
-    <div class="clear-buttons">
-      <button id="clearScoreBtn" onclick="clearHighScore()">Clear High Score 🗑️</button>
-      <button id="clearStatsBtn" onclick="clearGameStats()">Reset Statistics 🗑️</button>
-    </div>
-    <div class="credits">
-      <p>Credits: <strong>XOBE DEVELOPMENT</strong></p>
-    </div>
-    <div id="level" class="level">Level: 1 (Beginner)</div>
-  </div>
+  
+  <!-- Modal Quest -->
+  <div id="questModal" class="modal hidden"></div>
+  
+  <!-- Modal Shop Tema -->
+  <div id="themeShopModal" class="modal hidden"></div>
+  
+  <!-- Modal Achievements -->
+  <div id="achievementsModal" class="modal hidden"></div>
+  
+  <!-- Modal Changelog -->
+  <div id="changelogModal" class="modal hidden"></div>
+  
+  <!-- Confetti Container -->
   <div id="confettiContainer" class="confetti-container"></div>
-  <div id="changelogModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <h2>Changelog TebakX</h2>
-      <ul style="text-align: left; max-height: 300px; overflow-y: auto;">
-        <li><strong>v3.5 Zaz Version</strong>:
-          <ul>
-            <li>🎨 Tema eksklusif <b>Zaz Version</b> (aktifkan tombol Z di kiri atas)</li>
-            <li>🚀 UI/UX dirombak total, lebih modern & rapi</li>
-            <li>📱 Responsif di semua perangkat</li>
-            <li>⚡ Optimisasi performa</li>
-            <li>🌟 Splash screen baru makin keren</li>
-            <li>🐞 Bug fix minor</li>
-          </ul>
-        </li>
-        <li><strong>v3.4</strong>:
-          <ul>
-            <li>🎯 Penambahan Quest Harian & Mingguan (reset otomatis)</li>
-            <li>💰 Koin reward quest & Shop Tema Eksklusif</li>
-            <li>🎨 Tema Rainbow, Orion, Cyber bisa dibeli dengan koin</li>
-            <li>🐞 Perbaikan bug & optimasi performa</li>
-            <li>📱 UI makin responsif di semua perangkat</li>
-            <li>🙏 Terima kasih untuk semua feedback!</li>
-          </ul>
-        </li>
-        <li><strong>v3.3</strong>:
-          <ul>
-            <li>🐞 Perbaikan bug & optimisasi performa</li>
-            <li>📱 Tampilan lebih bagus & responsif di semua device</li>
-            <li>✨ Animasi & UI lebih halus</li>
-            <li>🎨 Tema Neon & Custom tetap tersedia</li>
-          </ul>
-        </li>
-        <li><strong>v3.2</strong>:
-          <ul>
-            <li>🎨 Penambahan Tema Neon & Custom</li>
-            <li>✨ Efek visual & animasi tombol lebih keren</li>
-            <li>🔊 Musik latar belakang</li>
-            <li>🐞 Bugfix minor pada sistem combo</li>
-          </ul>
-        </li>
-        <li><strong>v3.1</strong>:
-          <ul>
-            <li>🧹 Pembersihan kode & optimisasi performa</li>
-            <li>📱 Tampilan lebih responsif untuk HP</li>
-            <li>🛠️ Perbaikan bug pada sistem level & statistik</li>
-          </ul>
-        </li>
-        <li><strong>v3.0</strong>:
-          <ul>
-            <li>🚀 Versi baru dengan UI modern</li>
-            <li>🔢 Sistem level & combo</li>
-            <li>🏆 High Score & statistik</li>
-            <li>🎉 Efek confetti saat menang</li>
-          </ul>
-        </li>
-        <li><strong>v2.9</strong>:
-          <ul>
-            <li>🛠️ Perbaikan bug dan peningkatan performa</li>
-            <li>🎨 Penambahan opsi tema baru</li>
-          </ul>
-        </li>
-        <li><strong>v2.0–v2.8</strong>:
-          <ul>
-            <li>🆕 Penambahan mode AI</li>
-            <li>🔄 Reset & share score</li>
-            <li>🐞 Bugfix & optimasi</li>
-          </ul>
-        </li>
-        <li><strong>v1.9</strong>:
-          <ul>
-            <li>🛠️ Perbaikan bug minor</li>
-            <li>📱 Peningkatan tampilan mobile</li>
-          </ul>
-        </li>
-        <li><strong>v1.0–v1.8</strong>:
-          <ul>
-            <li>🎮 Game Tebak Angka dasar</li>
-            <li>📊 High Score sederhana</li>
-            <li>🛠️ Penambahan statistik</li>
-          </ul>
-        </li>
-        <li><strong>v0.9</strong>:
-          <ul>
-            <li>🛠️ Perbaikan bug awal</li>
-            <li>📱 Tampilan awal responsif</li>
-          </ul>
-        </li>
-        <li><strong>v0.1–v0.8</strong>:
-          <ul>
-            <li>🚧 Prototype awal TebakX</li>
-            <li>🔢 Fitur tebak angka sederhana</li>
-          </ul>
-        </li>
-      </ul>
-      <button onclick="closeChangelog()">Tutup</button>
-    </div>
-  </div>
-  <div id="aiMode" class="container" style="display: none;">
-    <h1>Versus AI 🤖</h1>
-    <p>Balapan tebak angka melawan AI! Siapa yang lebih cepat?</p>
-    <label for="aiDifficulty">Pilih Tingkat Kesulitan:</label>
-    <select id="aiDifficulty">
-      <option value="easy">Easy</option>
-      <option value="medium" selected>Medium</option>
-      <option value="hard">Hard</option>
-    </select>
-    <input type="number" id="playerGuess" placeholder="Masukkan tebakan Anda">
-    <button onclick="playerMakeGuess()">Tebak</button>
-    <div id="aiFeedback" class="feedback"></div>
-    <div id="playerFeedback" class="feedback"></div>
-    <div id="aiResult" class="result"></div>
-    <div id="playerResult" class="result"></div>
-    <button onclick="resetAIMode()">Reset Mode AI</button>
-  </div>
-  <div id="coinDisplay" style="position:fixed;top:10px;right:10px;background:#ffd700;color:#333;padding:8px 18px;border-radius:20px;font-weight:bold;box-shadow:0 2px 8px #ffd70055;z-index:9999;display:none;">💰 Koin: 0</div>
-  <!-- Script tetap sama seperti sebelumnya -->
+  
+  <!-- Efek Frost untuk Winter Theme -->
+  <div id="frostEffect" class="frost-effect hidden"></div>
+  
   <script>
-    // Deklarasi variabel game
+    // Variabel Global
     let secretNumber;
-    const maxNumber = 100; // Rentang angka: 1 - 100
-    let attempts;
+    const maxNumber = 100;
+    let attempts = 0;
     let guessHistory = [];
-    let bestScore;
-    let startTime; // waktu mulai permainan
-    let comboCount = 0; // Untuk sistem combo
-    let level = 1; // Untuk sistem leveling
-
-    // Fungsi untuk memperbarui level
-    function updateLevel() {
-      const levelDiv = document.getElementById('level');
-      if (!levelDiv) {
-        console.error("Elemen level tidak ditemukan!");
-        return;
-      }
+    let startTime;
+    let comboCount = 0;
+    let level = 1;
+    let isDailyChallenge = false;
+    let dailyChallengeCompleted = false;
+    let gameTimer;
+    let currentTime = 0;
     
-      // Naik level jika comboCount mencapai 5
-      if (comboCount >= 5) {
-        const titles = ["Beginner", "Intermediate", "Advanced", "Expert", "Master", "Grandmaster", "Legend"];
-        const maxLevel = titles.length;
-
-        if (level < maxLevel) {
-          level++;
-          comboCount = 0; // Reset combo setelah naik level
-        }
-
-        // Tampilkan pesan level up
-        const levelUpMessage = document.createElement('div');
-        levelUpMessage.className = 'level-up';
-        levelUpMessage.textContent = `Level Up! 🎉 Kamu sekarang di Level ${level}`;
-        document.body.appendChild(levelUpMessage);
-
-        // Hapus pesan setelah animasi selesai
-        setTimeout(() => {
-          levelUpMessage.remove();
-        }, 3000);
-
-        // Tampilkan confetti untuk level up
-        showConfetti(50);
+    // Variabel Mode AI
+    let aiNumber;
+    let playerAttemptsAI = 0;
+    let aiAttemptsAI = 0;
+    let aiMin = 1;
+    let aiMax = 100;
+    let aiThinking = false;
+    
+    // Variabel Koin
+    let userCoins = Number(localStorage.getItem('userCoins') || 0);
+    
+    // Sistem Level
+    const LEVELS = [
+      { name: "Beginner", min: 0, max: 4 },
+      { name: "Intermediate", min: 5, max: 9 },
+      { name: "Advanced", min: 10, max: 19 },
+      { name: "Expert", min: 20, max: 29 },
+      { name: "Master", min: 30, max: 49 },
+      { name: "Grandmaster", min: 50, max: 74 },
+      { name: "Legend", min: 75, max: 99 },
+      { name: "Ultimate", min: 100, max: Infinity }
+    ];
+    
+    // Sistem Quest
+    const QUESTS = [
+      { id: "daily1", type: "daily", desc: "Main 1x hari ini", goal: 1, reward: 10 },
+      { id: "daily2", type: "daily", desc: "Menang 2x hari ini", goal: 2, reward: 20 },
+      { id: "weekly1", type: "weekly", desc: "Main 5x minggu ini", goal: 5, reward: 30 },
+      { id: "weekly2", type: "weekly", desc: "Menang 7x minggu ini", goal: 7, reward: 40 }
+    ];
+    
+    // Sistem Achievement
+    const ACHIEVEMENTS = [
+      { id: "firstWin", name: "Kemenangan Pertama", desc: "Menangkan game pertama Anda", icon: "🏆" },
+      { id: "speedDemon", name: "Speed Demon", desc: "Menang dalam kurang dari 10 detik", icon: "⚡" },
+      { id: "lucky7", name: "Lucky 7", desc: "Menang dalam 7 percobaan atau kurang", icon: "🍀" },
+      { id: "comboMaster", name: "Combo Master", desc: "Dapatkan combo x5", icon: "🔥" },
+      { id: "dailyChallenge", name: "Pecinta Tantangan", desc: "Selesaikan tantangan harian", icon: "🎯" },
+      { id: "beatAI", name: "Pemburu AI", desc: "Kalahkan AI dalam mode versus", icon: "🤖" },
+      { id: "levelUp", name: "Level Up", desc: "Capai level 5", icon: "⬆️" },
+      { id: "winterMaster", name: "Winter Master", desc: "Mainkan 10 game dengan tema winter", icon: "❄️" },
+      { id: "coinCollector", name: "Pengumpul Koin", desc: "Kumpulkan 500 koin", icon: "💰" },
+      { id: "perfectGame", name: "Game Sempurna", desc: "Menang dalam 1 percobaan", icon: "💎" }
+    ];
+    
+    // Shop Tema
+    const THEME_SHOP = [
+      { id: "rainbow", name: "🌈 Rainbow", price: 100, desc: "Tema animasi pelangi super keren!" },
+      { id: "orion", name: "🪐 Orion", price: 80, desc: "Tema galaksi biru gelap elegan." },
+      { id: "cyber", name: "🤖 Tea Cyber", price: 60, desc: "Tema cyber biru modern." },
+      { id: "fire", name: "🔥 Fire", price: 120, desc: "Tema api yang membara!" },
+      { id: "nature", name: "🌿 Nature", price: 90, desc: "Tema alam yang hijau dan segar." }
+    ];
+    
+    // Inisialisasi
+    window.onload = function() {
+      // Tampilkan splash screen dan otomatis tutup setelah 3 detik
+      setTimeout(() => {
+        document.getElementById('splashScreen').classList.add('hidden');
+        document.getElementById('mainMenu').classList.remove('hidden');
+      }, 3000);
+      
+      // Restore tema
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'zaz') {
+        document.body.classList.add('zaz-theme');
+        document.getElementById('zazThemeBtn').classList.add('active');
+      } else if (savedTheme === 'winter') {
+        document.body.classList.add('winter-theme');
+        document.getElementById('winterThemeBtn').classList.add('active');
+        document.getElementById('frostEffect').classList.remove('hidden');
+        createSnowflakes();
       }
-
-      // Tentukan gelar berdasarkan level
-      const titles = ["Beginner", "Pro", "Master", "Legend"];
-      const title = titles[Math.min(level - 1, titles.length - 1)];
-      levelDiv.textContent = `Level: ${level} (${title})`;
+      
+      // Update UI
+      updateCoinDisplay();
+      updateDailyChallenge();
+      refreshThemeOptions();
+      updateGameStats();
+      
+      // Setup tombol kembali
+      setupBackButton();
+    };
+    
+    // Setup Tombol Kembali
+    function setupBackButton() {
+      const backBtn = document.getElementById('backBtn');
+      backBtn.addEventListener('click', goBack);
     }
-
+    
+    function goBack() {
+      const gameArea = document.getElementById('gameArea');
+      const aiMode = document.getElementById('aiMode');
+      const mainMenu = document.getElementById('mainMenu');
+      
+      if (!gameArea.classList.contains('hidden')) {
+        gameArea.classList.add('hidden');
+        mainMenu.classList.remove('hidden');
+        stopTimer();
+      } else if (!aiMode.classList.contains('hidden')) {
+        aiMode.classList.add('hidden');
+        mainMenu.classList.remove('hidden');
+      }
+    }
+    
+    // Fungsi Tema
+    function changeTheme() {
+      const theme = document.getElementById('themeSelect').value;
+      document.body.classList.remove('light-mode', 'neon', 'custom-theme', 'rainbow-theme', 'orion-theme', 'cyber-theme', 'winter-theme');
+      document.getElementById('frostEffect').classList.add('hidden');
+      
+      // Hapus semua snowflakes jika ada
+      const snowflakes = document.querySelectorAll('.snowflake');
+      snowflakes.forEach(snowflake => snowflake.remove());
+      
+      if (theme === 'light') {
+        document.body.classList.add('light-mode');
+        document.body.style.background = "#f8fafc";
+        document.getElementById('customThemePicker').classList.add('hidden');
+        localStorage.setItem('theme', 'light');
+      } else if (theme === 'neon') {
+        document.body.classList.add('neon');
+        document.body.style.background = "linear-gradient(135deg, #0fffc1, #7e0fff 80%)";
+        document.getElementById('customThemePicker').classList.add('hidden');
+        localStorage.setItem('theme', 'neon');
+      } else if (theme === 'winter') {
+        document.body.classList.add('winter-theme');
+        document.body.style.background = "linear-gradient(135deg, var(--winter-primary), var(--winter-secondary) 90%)";
+        document.getElementById('customThemePicker').classList.add('hidden');
+        document.getElementById('frostEffect').classList.remove('hidden');
+        createSnowflakes();
+        localStorage.setItem('theme', 'winter');
+      } else if (theme === 'custom') {
+        document.body.classList.add('custom-theme');
+        document.getElementById('customThemePicker').classList.remove('hidden');
+        applyCustomTheme();
+        localStorage.setItem('theme', 'custom');
+      } else if (theme === 'rainbow') {
+        document.body.classList.add('rainbow-theme');
+        document.body.style.background = "";
+        document.getElementById('customThemePicker').classList.add('hidden');
+        localStorage.setItem('theme', 'rainbow');
+      } else if (theme === 'orion') {
+        document.body.classList.add('orion-theme');
+        document.body.style.background = "";
+        document.getElementById('customThemePicker').classList.add('hidden');
+        localStorage.setItem('theme', 'orion');
+      } else if (theme === 'cyber') {
+        document.body.classList.add('cyber-theme');
+        document.body.style.background = "";
+        document.getElementById('customThemePicker').classList.add('hidden');
+        localStorage.setItem('theme', 'cyber');
+      } else {
+        // Default: dark
+        document.body.style.background = "linear-gradient(135deg, #1e40af, #3b82f6)";
+        document.getElementById('customThemePicker').classList.add('hidden');
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+    
+    function applyCustomTheme() {
+      const color1 = document.getElementById('color1').value;
+      const color2 = document.getElementById('color2').value;
+      document.body.classList.add('custom-theme');
+      document.body.style.background = `linear-gradient(135deg, ${color1}, ${color2})`;
+    }
+    
+    // Event listener untuk tombol tema
+    document.getElementById('zazThemeBtn').addEventListener('click', function() {
+      document.body.classList.toggle('zaz-theme');
+      this.classList.toggle('active');
+      
+      if (document.body.classList.contains('zaz-theme')) {
+        localStorage.setItem('theme', 'zaz');
+        // Nonaktifkan winter theme jika aktif
+        if (document.body.classList.contains('winter-theme')) {
+          document.body.classList.remove('winter-theme');
+          document.getElementById('winterThemeBtn').classList.remove('active');
+          document.getElementById('frostEffect').classList.add('hidden');
+          // Hapus snowflakes
+          const snowflakes = document.querySelectorAll('.snowflake');
+          snowflakes.forEach(snowflake => snowflake.remove());
+        }
+      } else {
+        localStorage.removeItem('theme');
+      }
+    });
+    
+    document.getElementById('winterThemeBtn').addEventListener('click', function() {
+      document.body.classList.toggle('winter-theme');
+      this.classList.toggle('active');
+      
+      if (document.body.classList.contains('winter-theme')) {
+        localStorage.setItem('theme', 'winter');
+        document.getElementById('frostEffect').classList.remove('hidden');
+        createSnowflakes();
+        
+        // Nonaktifkan zaz theme jika aktif
+        if (document.body.classList.contains('zaz-theme')) {
+          document.body.classList.remove('zaz-theme');
+          document.getElementById('zazThemeBtn').classList.remove('active');
+        }
+      } else {
+        localStorage.removeItem('theme');
+        document.getElementById('frostEffect').classList.add('hidden');
+        // Hapus snowflakes
+        const snowflakes = document.querySelectorAll('.snowflake');
+        snowflakes.forEach(snowflake => snowflake.remove());
+      }
+    });
+    
+    // Fungsi untuk membuat efek salju
+    function createSnowflakes() {
+      const snowflakeSymbols = ['❄', '❅', '❆'];
+      const snowflakeCount = 30;
+      
+      for (let i = 0; i < snowflakeCount; i++) {
+        const snowflake = document.createElement('div');
+        snowflake.className = 'snowflake';
+        snowflake.innerHTML = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
+        snowflake.style.left = Math.random() * 100 + 'vw';
+        snowflake.style.animationDuration = Math.random() * 3 + 2 + 's'; // antara 2-5 detik
+        snowflake.style.opacity = Math.random();
+        snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+        
+        document.body.appendChild(snowflake);
+      }
+    }
+    
+    // Fungsi Game
     function showVerification() {
-      document.getElementById('verificationModal').style.display = 'flex';
+      document.getElementById('verificationModal').classList.remove('hidden');
     }
-
+    
     function verifyUser() {
       const userInput = document.getElementById('verificationInput').value.trim();
-      const correctCode = "zaS nEON"; // Pastikan kode ini tidak memiliki spasi tambahan
+      const correctCode = "zaS nEON";
       if (userInput === correctCode) {
-        document.getElementById('verificationModal').style.display = 'none';
-        goToGame();
+        closeVerificationModal();
+        startGame();
       } else {
-        alert("Kode verifikasi salah! ❌");
+        showNotification("Kode verifikasi salah! ❌");
       }
     }
-
-    function goToGame() {
-      document.getElementById('mainMenu').style.display = 'none';
-      document.getElementById('gameArea').style.display = 'block';
-      startGame();
+    
+    function closeVerificationModal() {
+      document.getElementById('verificationModal').classList.add('hidden');
     }
-
+    
     function startGame() {
+      document.getElementById('mainMenu').classList.add('hidden');
+      document.getElementById('gameArea').classList.remove('hidden');
+      document.getElementById('backBtn').style.display = 'flex';
+      
       secretNumber = Math.floor(Math.random() * maxNumber) + 1;
       attempts = 0;
       guessHistory = [];
-      startTime = Date.now();
+      comboCount = 0;
+      isDailyChallenge = false;
       
-      // Reset tampilan
-      const resultDiv = document.getElementById('result');
-      resultDiv.textContent = '';
-      resultDiv.classList.remove('lightning-effect'); // pastikan efek petir dihapus saat reset
-
-      document.getElementById('guesses').textContent = '';
-      document.getElementById('hint').textContent = '';
+      // Reset UI
+      document.getElementById('result').textContent = '';
       document.getElementById('feedback').textContent = '';
+      document.getElementById('hint').textContent = '';
+      document.getElementById('guess').value = '';
       document.getElementById('guess').disabled = false;
       document.getElementById('guessBtn').disabled = false;
-      document.getElementById('resetBtn').style.display = 'none';
       document.getElementById('hintBtn').disabled = false;
-      document.getElementById('shareBtn').style.display = 'none';
-      document.getElementById('guess').value = '';
+      document.getElementById('resetBtn').style.display = 'none';
       
-      displayHighScore();
-      displayGameStats();
+      // Update stats
+      updateStats();
+      startTimer();
+      
       console.log("Secret Number (debug):", secretNumber);
-
-      // Tambahkan ini:
+      
+      // Update quest
       updateQuestProgress("daily", "daily1", 1);
       updateQuestProgress("weekly", "weekly1", 1);
     }
-
+    
+    function startDailyChallenge() {
+      document.getElementById('mainMenu').classList.add('hidden');
+      document.getElementById('gameArea').classList.remove('hidden');
+      document.getElementById('backBtn').style.display = 'flex';
+      
+      secretNumber = Math.floor(Math.random() * maxNumber) + 1;
+      attempts = 0;
+      guessHistory = [];
+      comboCount = 0;
+      isDailyChallenge = true;
+      dailyChallengeCompleted = false;
+      
+      // Reset UI
+      document.getElementById('result').textContent = 'Tantangan Harian: Tebak dalam kurang dari 5 percobaan!';
+      document.getElementById('feedback').textContent = '';
+      document.getElementById('hint').textContent = '';
+      document.getElementById('guess').value = '';
+      document.getElementById('guess').disabled = false;
+      document.getElementById('guessBtn').disabled = false;
+      document.getElementById('hintBtn').disabled = false;
+      document.getElementById('resetBtn').style.display = 'none';
+      
+      // Update stats
+      updateStats();
+      startTimer();
+      
+      console.log("Secret Number (debug):", secretNumber);
+    }
+    
     function makeGuess() {
       const guessInput = document.getElementById('guess');
-      const resultDiv = document.getElementById('result');
-      const guessesDiv = document.getElementById('guesses');
-      const feedbackDiv = document.getElementById('feedback');
       const guess = Number(guessInput.value);
-
+      
       if (!guess && guess !== 0) {
-        resultDiv.textContent = 'Masukkan angka yang valid! ❌';
+        showNotification("Masukkan angka yang valid! ❌");
         return;
       }
-
+      
       attempts++;
       guessHistory.push(guess);
-
+      updateStats();
+      
       if (guess === secretNumber) {
+        // Menang
         comboCount++;
-
-        // Efek Combo
+        
+        // Update combo
         if (comboCount >= 3) {
-          resultDiv.textContent += `\nCombo Bonus! 🔥 Kamu berhasil menjawab dengan benar ${comboCount} kali berturut-turut!`;
+          showComboEffect(`Combo x${comboCount}! 🔥`);
         }
+        
+        // Cek level up
         if (comboCount >= 5) {
-          const comboMessage = document.createElement('div');
-          comboMessage.className = 'combo-glow';
-          comboMessage.textContent = `🔥 Combo x${comboCount}! Kamu luar biasa! 🔥`;
-          comboMessage.style.position = 'fixed';
-          comboMessage.style.top = '30%';
-          comboMessage.style.left = '50%';
-          comboMessage.style.transform = 'translate(-50%, -50%)';
-          comboMessage.style.zIndex = '4000';
-          comboMessage.style.fontSize = '2em';
-          comboMessage.style.pointerEvents = 'none';
-          document.body.appendChild(comboMessage);
-          setTimeout(() => { comboMessage.remove(); }, 3000);
+          levelUp();
         }
-
-        // Sistem Leveling
-        if (comboCount >= 5) updateLevel();
-
-        // Menampilkan pesan kemenangan
-        const endTime = Date.now();
-        const gameDuration = Math.floor((endTime - startTime) / 1000);
-        let messageText = `Selamat! 🎉 Tebakannya benar: ${secretNumber} dalam ${attempts} percobaan dan ${gameDuration} detik.`;
-
-        // Cek event tebakan paling cepat
-        const fastestTimeStr = localStorage.getItem('fastestTime');
-        const fastestTime = fastestTimeStr ? Number(fastestTimeStr) : Infinity;
-        if (gameDuration < fastestTime) {
-          localStorage.setItem('fastestTime', gameDuration);
-          messageText += "\nEvent: Tebakan Paling Cepat! ⚡ Efek petir eksklusif!";
-          resultDiv.classList.add('lightning-effect');
+        
+        // Cek daily challenge
+        if (isDailyChallenge && attempts <= 5 && !dailyChallengeCompleted) {
+          dailyChallengeCompleted = true;
+          userCoins += 50;
+          localStorage.setItem('userCoins', userCoins);
+          updateCoinDisplay();
+          showNotification("🎯 Tantangan Harian selesai! +50 koin!");
+          updateAchievement("dailyChallenge", 1);
         }
-
-        resultDiv.innerHTML = messageText;
-
-        // === Tambahan: update skor dan statistik setiap menang, sebelum ronde baru ===
+        
+        // Cek perfect game
+        if (attempts === 1) {
+          updateAchievement("perfectGame", 1);
+        }
+        
+        // Cek lucky 7
+        if (attempts <= 7) {
+          updateAchievement("lucky7", 1);
+        }
+        
+        // Cek speed demon
+        if (currentTime < 10) {
+          updateAchievement("speedDemon", 1);
+          document.getElementById('result').classList.add('lightning-effect');
+        }
+        
+        // Update achievement first win
+        updateAchievement("firstWin", 1);
+        
+        // Tampilkan pesan kemenangan
+        const message = `🎉 Selamat! Tebakan benar: ${secretNumber} dalam ${attempts} percobaan dan ${currentTime} detik.`;
+        document.getElementById('result').innerHTML = message;
+        
+        // Update statistik
         updateHighScore();
-        updateGameStats(gameDuration);
-
-        updateQuestProgress("daily", "daily2", 1); // Menang 2x hari ini
-updateQuestProgress("weekly", "weekly2", 1); // Menang 7x minggu ini
-
+        updateGameStats();
+        
+        // Tampilkan confetti
         showConfetti();
-
-        // Mulai game baru secara otomatis tanpa reset manual
+        
+        // Beri koin
+        const coinsEarned = Math.max(10, 30 - attempts);
+        userCoins += coinsEarned;
+        localStorage.setItem('userCoins', userCoins);
+        updateCoinDisplay();
+        
+        // Update quest
+        updateQuestProgress("daily", "daily2", 1);
+        updateQuestProgress("weekly", "weekly2", 1);
+        
+        // Disable input
+        document.getElementById('guess').disabled = true;
+        document.getElementById('guessBtn').disabled = true;
+        document.getElementById('hintBtn').disabled = true;
+        document.getElementById('resetBtn').style.display = 'inline-block';
+        
+        // Stop timer
+        stopTimer();
+        
+        // Mulai game baru otomatis
         setTimeout(() => {
-          updateHighScore(); // Pastikan best score tetap update di ronde baru
-          updateGameStats(gameDuration); // Pastikan statistik tetap update di ronde baru
-          startNewRound(); // Mulai ronde baru
-        }, 3000); // Tunggu 3 detik sebelum memulai ronde baru
+          startNewRound();
+        }, 3000);
       } else {
-        comboCount = 0; // Reset combo jika tebakan salah
-        feedbackDiv.textContent = guess < secretNumber ? 'Terlalu kecil! 👇' : 'Terlalu besar! 👆';
+        // Salah
+        comboCount = 0;
+        document.getElementById('feedback').textContent = guess < secretNumber ? 'Terlalu kecil! 👇' : 'Terlalu besar! 👆';
       }
-      guessesDiv.textContent = 'Tebakan Anda: ' + guessHistory.join(', ');
+      
       guessInput.value = '';
-      guessInput.focus(); // Fokuskan ke input agar user bisa langsung menebak lagi
-    } // <--- Tambahkan kurung kurawal penutup di sini
-
-    // Fungsi untuk memulai ronde baru tanpa reset total
+      guessInput.focus();
+    }
+    
     function startNewRound() {
       secretNumber = Math.floor(Math.random() * maxNumber) + 1;
       attempts = 0;
       guessHistory = [];
-      startTime = Date.now();
-
-      // Reset elemen tampilan
-      const resultDiv = document.getElementById('result');
-      resultDiv.textContent = '';
-      resultDiv.classList.remove('lightning-effect');
-
-      document.getElementById('guesses').textContent = '';
-      document.getElementById('hint').textContent = '';
+      
+      // Reset UI
+      document.getElementById('result').textContent = '';
+      document.getElementById('result').classList.remove('lightning-effect');
       document.getElementById('feedback').textContent = '';
+      document.getElementById('hint').textContent = '';
+      document.getElementById('guess').value = '';
       document.getElementById('guess').disabled = false;
       document.getElementById('guessBtn').disabled = false;
       document.getElementById('hintBtn').disabled = false;
-      document.getElementById('guess').value = '';
-
+      document.getElementById('resetBtn').style.display = 'none';
+      
+      // Reset timer
+      currentTime = 0;
+      updateStats();
+      startTimer();
+      
       console.log("Secret Number (debug):", secretNumber);
     }
-
+    
     function showHint() {
-      const hintDiv = document.getElementById('hint');
       if (attempts >= 3) {
-        hintDiv.textContent = secretNumber % 2 === 0 
+        const hint = secretNumber % 2 === 0 
           ? 'Hint: Angka rahasia adalah genap. ➕'
           : 'Hint: Angka rahasia adalah ganjil. ➖';
+        document.getElementById('hint').textContent = hint;
         document.getElementById('hintBtn').disabled = true;
       } else {
-        hintDiv.textContent = `Cobalah ${3 - attempts} tebakan lagi untuk mendapatkan hint! 🤔`;
+        document.getElementById('hint').textContent = `Cobalah ${3 - attempts} tebakan lagi untuk mendapatkan hint! 🤔`;
       }
     }
-
+    
     function resetGame() {
+      stopTimer();
       startGame();
-      comboCount = 0; // Reset combo saat game di-reset
     }
-
+    
+    function updateStats() {
+      document.getElementById('attemptsCount').textContent = attempts;
+      document.getElementById('comboCount').textContent = comboCount;
+    }
+    
+    function startTimer() {
+      stopTimer(); // Pastikan timer sebelumnya berhenti
+      currentTime = 0;
+      gameTimer = setInterval(() => {
+        currentTime++;
+        document.getElementById('timer').textContent = currentTime;
+      }, 1000);
+    }
+    
+    function stopTimer() {
+      if (gameTimer) {
+        clearInterval(gameTimer);
+        gameTimer = null;
+      }
+    }
+    
     function updateHighScore() {
       const bestScore = localStorage.getItem('highScore');
       if (!bestScore || attempts < bestScore) {
@@ -820,114 +1563,84 @@ updateQuestProgress("weekly", "weekly2", 1); // Menang 7x minggu ini
       }
       displayHighScore();
     }
-
+    
     function displayHighScore() {
-      bestScore = Number(localStorage.getItem('highScore'));
-      const highscoreDiv = document.getElementById('highscore');
-      if (bestScore) {
-        highscoreDiv.textContent = 'Best Score: ' + bestScore + ' percobaan 🏆';
-      } else {
-        highscoreDiv.textContent = 'Belum ada Best Score.';
-      }
+      const bestScore = localStorage.getItem('highScore');
+      document.getElementById('highScore').textContent = bestScore || '-';
     }
-
-    function clearHighScore() {
-      localStorage.removeItem('highScore');
-      displayHighScore();
-    }
-
-    function updateGameStats(gameDuration) {
-      let totalGames = localStorage.getItem('totalGames');
-      let totalAttempts = localStorage.getItem('totalAttempts');
-      let totalTime = localStorage.getItem('totalTime');
-      totalGames = totalGames ? Number(totalGames) + 1 : 1;
-      totalAttempts = totalAttempts ? Number(totalAttempts) + attempts : attempts;
-      totalTime = totalTime ? Number(totalTime) + gameDuration : gameDuration;
+    
+    function updateGameStats() {
+      let totalGames = Number(localStorage.getItem('totalGames') || 0) + 1;
+      let totalWins = Number(localStorage.getItem('totalWins') || 0) + 1;
+      let totalAttempts = Number(localStorage.getItem('totalAttempts') || 0) + attempts;
+      let totalTime = Number(localStorage.getItem('totalTime') || 0) + currentTime;
+      
       localStorage.setItem('totalGames', totalGames);
+      localStorage.setItem('totalWins', totalWins);
       localStorage.setItem('totalAttempts', totalAttempts);
       localStorage.setItem('totalTime', totalTime);
-
-      let bestTime = localStorage.getItem('bestTime');
-      if (!bestTime || gameDuration < bestTime) {
-        localStorage.setItem('bestTime', gameDuration);
-      }
-      displayGameStats();
+      
+      // Update win rate
+      const winRate = Math.round((totalWins / totalGames) * 100);
+      document.getElementById('totalGames').textContent = totalGames;
+      document.getElementById('winRate').textContent = winRate + '%';
+      
+      // Update level
+      updateLevel();
     }
-
-    function displayGameStats() {
-      const statsDiv = document.getElementById('stats');
-      let totalGames = localStorage.getItem('totalGames') || 0;
-      let totalAttempts = localStorage.getItem('totalAttempts') || 0;
-      let totalTime = localStorage.getItem('totalTime') || 0;
-
-      const avgAttempts = (totalAttempts / totalGames).toFixed(2);
-      const avgTime = (totalTime / totalGames).toFixed(2);
-
-      statsDiv.textContent = `📊 Total Games: ${totalGames}, Avg Attempts: ${avgAttempts}, Avg Time: ${avgTime} detik`;
-    }
-
-    function clearGameStats() {
-      localStorage.removeItem('totalGames');
-      localStorage.removeItem('totalAttempts');
-      localStorage.removeItem('totalTime');
-      localStorage.removeItem('bestTime');
-      displayGameStats();
-    }
-
-   
-
-    function updateStatistics(attempts, gameDuration) {
-      const stats = JSON.parse(localStorage.getItem('gameStats')) || { totalGames: 0, totalAttempts: 0, totalTime: 0 };
-      stats.totalGames++;
-      stats.totalAttempts += attempts;
-      stats.totalTime += gameDuration;
-      localStorage.setItem('gameStats', JSON.stringify(stats));
-    }
-
     
-  // Event listener untuk tombol Enter
-  document.addEventListener('DOMContentLoaded', function () {
-    const guessInput = document.getElementById('guess');
-    if (guessInput) {
-      guessInput.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter' || event.keyCode === 13) {
-          event.preventDefault(); // Mencegah perilaku default (misalnya, submit form)
-          makeGuess(); // Panggil fungsi makeGuess
+    function updateLevel() {
+      const totalWins = Number(localStorage.getItem('totalWins') || 0);
+      
+      // Cari level yang sesuai
+      for (let i = 0; i < LEVELS.length; i++) {
+        if (totalWins >= LEVELS[i].min && totalWins <= LEVELS[i].max) {
+          level = i + 1;
+          document.getElementById('currentLevel').textContent = level;
+          document.getElementById('levelTitle').textContent = LEVELS[i].name;
+          
+          // Update progress bar
+          const progress = ((totalWins - LEVELS[i].min) / (LEVELS[i].max - LEVELS[i].min)) * 100;
+          document.getElementById('levelProgress').style.width = progress + '%';
+          
+          // Cek achievement level up
+          if (level >= 5) {
+            updateAchievement("levelUp", 1);
+          }
+          
+          break;
         }
-      });
+      }
     }
-  });
-
-    // Gabungkan semua logika ke dalam satu window.onload
-    window.onload = function () {
-      // Tampilkan splash screen dan otomatis tutup setelah 3 detik
-      const splashScreen = document.getElementById('splashScreen');
-      if (splashScreen) {
-        setTimeout(() => {
-          splashScreen.style.display = 'none';
-        }, 2600);
-      }
-      // Restore Zaz theme jika sebelumnya aktif
-      if(localStorage.getItem('theme') === 'zaz') {
-        document.body.classList.add('zaz-theme');
-        document.getElementById('zazThemeBtn').classList.add('active');
-      }
-      // Tampilkan menu utama saat halaman dimuat
-      const mainMenu = document.getElementById('mainMenu');
-      const gameArea = document.getElementById('gameArea');
-      if (mainMenu && gameArea) {
-        mainMenu.style.display = 'block';
-        gameArea.style.display = 'none';
-      }
-    };
-
-    // Fungsi untuk menampilkan confetti saat menang
-    function showConfetti(amount = 10) {
+    
+    function levelUp() {
+      const levelUpMessage = document.createElement('div');
+      levelUpMessage.className = 'level-up';
+      levelUpMessage.textContent = `Level Up! 🎉 Kamu sekarang di Level ${level}`;
+      document.body.appendChild(levelUpMessage);
+      
+      setTimeout(() => {
+        levelUpMessage.remove();
+      }, 3000);
+      
+      showConfetti(50);
+    }
+    
+    function showComboEffect(message) {
+      const comboEffect = document.createElement('div');
+      comboEffect.className = 'combo-effect';
+      comboEffect.textContent = message;
+      document.body.appendChild(comboEffect);
+      
+      setTimeout(() => {
+        comboEffect.remove();
+      }, 2000);
+    }
+    
+    function showConfetti(amount = 30) {
       const confettiContainer = document.getElementById('confettiContainer');
-      if (!confettiContainer) {
-        console.error('Confetti container tidak ditemukan!');
-        return;
-      }
+      if (!confettiContainer) return;
+      
       for (let i = 0; i < amount; i++) {
         const confetti = document.createElement('div');
         confetti.className = 'confetti';
@@ -937,339 +1650,495 @@ updateQuestProgress("weekly", "weekly2", 1); // Menang 7x minggu ini
         confetti.style.animationDelay = Math.random() * 2 + 's';
         confettiContainer.appendChild(confetti);
       }
+      
       setTimeout(() => {
-        confettiContainer.innerHTML = ''; // Bersihkan semua elemen confetti
-      }, 5000); // Durasi diperpendek menjadi 5 detik
+        confettiContainer.innerHTML = '';
+      }, 7000);
     }
-
-    function closeVerificationModal() {
-      const modal = document.getElementById('verificationModal');
-      if (modal) {
-        modal.style.display = 'none';
-      } else {
-        console.error('Modal verifikasi tidak ditemukan!');
-      }
+    
+    function showNotification(message) {
+      const notification = document.createElement('div');
+      notification.className = 'notification';
+      notification.textContent = message;
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.remove();
+      }, 3000);
     }
-
-    function toggleTheme() {
-      const body = document.body;
-      const themeToggle = document.getElementById('themeToggle');
-      const isLightMode = body.classList.toggle('light-mode');
-      themeToggle.textContent = isLightMode ? '🌞 Light Mode' : '🌙 Dark Mode';
-    }
-
-    function showChangelog() {
-      document.getElementById('changelogModal').style.display = 'flex';
-    }
-
-    function closeChangelog() {
-      document.getElementById('changelogModal').style.display = 'none';
-    }
-
-    let aiNumber = Math.floor(Math.random() * 100) + 1;
-    let playerAttempts = 0;
-    let aiAttempts = 0;
-    let aiMin = 1;
-    let aiMax = 100;
-
+    
+    // Mode AI
     function startAIMode() {
-      const mainMenu = document.getElementById('mainMenu');
-      const aiMode = document.getElementById('aiMode');
-
-      if (mainMenu && aiMode) {
-        mainMenu.style.display = 'none'; // Sembunyikan menu utama
-        aiMode.style.display = 'block'; // Tampilkan mode AI
-
-        // Reset variabel untuk permainan AI
-        aiNumber = Math.floor(Math.random() * 100) + 1;
-        playerAttempts = 0;
-        aiAttempts = 0;
-        aiMin = 1;
-        aiMax = 100;
-
-        // Reset tampilan feedback dan hasil
-        document.getElementById('aiFeedback').textContent = '';
-        document.getElementById('playerFeedback').textContent = '';
-        document.getElementById('aiResult').textContent = '';
-        document.getElementById('playerResult').textContent = '';
-
-        const difficulty = document.getElementById('aiDifficulty').value;
-        console.log(`Mode AI dimulai. Tingkat kesulitan: ${difficulty}`);
-
-        // Mulai tebakan AI
+      document.getElementById('mainMenu').classList.add('hidden');
+      document.getElementById('aiMode').classList.remove('hidden');
+      document.getElementById('backBtn').style.display = 'flex';
+      
+      // Reset variabel
+      aiNumber = Math.floor(Math.random() * 100) + 1;
+      playerAttemptsAI = 0;
+      aiAttemptsAI = 0;
+      aiMin = 1;
+      aiMax = 100;
+      aiThinking = false;
+      
+      // Reset UI
+      document.getElementById('playerGuess').value = '';
+      document.getElementById('playerAttempts').textContent = '0';
+      document.getElementById('aiAttempts').textContent = '0';
+      document.getElementById('aiResult').textContent = '';
+      document.getElementById('playerResult').textContent = '';
+      document.getElementById('aiStatus').innerHTML = '<p>AI sedang berpikir...</p>';
+      
+      // Mulai AI
+      setTimeout(() => {
         aiMakeGuess();
-      } else {
-        console.error("Elemen mainMenu atau aiMode tidak ditemukan!");
-      }
+      }, 1000);
     }
-
+    
     function playerMakeGuess() {
-      const playerGuess = Number(document.getElementById('playerGuess').value);
-      playerAttempts++;
-      if (playerGuess === aiNumber) {
-        document.getElementById('playerResult').textContent = `🎉 Anda menang dalam ${playerAttempts} percobaan!`;
-        document.getElementById('aiResult').textContent = `🤖 AI kalah dengan ${aiAttempts} percobaan.`;
-      } else if (playerGuess < aiNumber) {
-        document.getElementById('playerFeedback').textContent = 'Terlalu kecil! 👇';
-      } else {
-        document.getElementById('playerFeedback').textContent = 'Terlalu besar! 👆';
+      const guess = Number(document.getElementById('playerGuess').value);
+      
+      if (!guess && guess !== 0) {
+        showNotification("Masukkan angka yang valid! ❌");
+        return;
       }
+      
+      playerAttemptsAI++;
+      document.getElementById('playerAttempts').textContent = playerAttemptsAI;
+      
+      if (guess === aiNumber) {
+        document.getElementById('playerResult').textContent = `🎉 Anda menang dalam ${playerAttemptsAI} percobaan!`;
+        updateAchievement("beatAI", 1);
+      } else if (guess < aiNumber) {
+        document.getElementById('aiStatus').innerHTML = `<p>AI: "Terlalu kecil!" 👇</p>`;
+      } else {
+        document.getElementById('aiStatus').innerHTML = `<p>AI: "Terlalu besar!" 👆</p>`;
+      }
+      
       document.getElementById('playerGuess').value = '';
       document.getElementById('playerGuess').focus();
     }
-
+    
     function aiMakeGuess() {
-      const difficulty = document.getElementById('aiDifficulty').value; // Ambil tingkat kesulitan
+      if (aiThinking) return;
+      
+      aiThinking = true;
+      const difficulty = document.getElementById('aiDifficulty').value;
       let aiGuess;
-
+      
       if (difficulty === 'easy') {
-        // Easy: AI menebak angka secara acak
-aiGuess = Math.floor(Math.random() * (aiMax - aiMin + 1)) + aiMin;
+        // Easy: AI menebak secara acak
+        aiGuess = Math.floor(Math.random() * (aiMax - aiMin + 1)) + aiMin;
       } else if (difficulty === 'medium') {
         // Medium: AI menggunakan binary search
         aiGuess = Math.floor((aiMin + aiMax) / 2);
       } else if (difficulty === 'hard') {
-        // Hard: AI menebak angka dengan sedikit "kesalahan" untuk membuatnya lebih sulit
-        const bias = Math.random() < 0.5 ? -1 : 1; // Tambahkan bias untuk membuat tebakan tidak selalu optimal
+        // Hard: AI dengan sedikit kesalahan
+        const bias = Math.random() < 0.3 ? -1 : (Math.random() < 0.6 ? 0 : 1);
         aiGuess = Math.floor((aiMin + aiMax) / 2) + bias;
-        aiGuess = Math.max(aiMin, Math.min(aiMax, aiGuess)); // Pastikan tebakan tetap dalam rentang
+        aiGuess = Math.max(aiMin, Math.min(aiMax, aiGuess));
+      } else if (difficulty === 'expert') {
+        // Expert: AI hampir sempurna
+        aiGuess = Math.floor((aiMin + aiMax) / 2);
       }
-
-      aiAttempts++;
-
-      if (aiGuess === aiNumber) {
-        document.getElementById('aiResult').textContent = `🤖 AI menang dalam ${aiAttempts} percobaan!`;
-      } else if (aiGuess < aiNumber) {
-        aiMin = aiGuess + 1;
-        document.getElementById('aiFeedback').textContent = `AI menebak ${aiGuess}: Terlalu kecil! 👇`;
-        setTimeout(aiMakeGuess, 1000);
-      } else {
-        aiMax = aiGuess - 1;
-        document.getElementById('aiFeedback').textContent = `AI menebak ${aiGuess}: Terlalu besar! 👆`;
-        setTimeout(aiMakeGuess, 1000);
-      }
+      
+      aiAttemptsAI++;
+      document.getElementById('aiAttempts').textContent = aiAttemptsAI;
+      
+      // Update status AI
+      document.getElementById('aiStatus').innerHTML = `<p>AI menebak: ${aiGuess}</p>`;
+      
+      setTimeout(() => {
+        if (aiGuess === aiNumber) {
+          document.getElementById('aiResult').textContent = `🤖 AI menang dalam ${aiAttemptsAI} percobaan!`;
+        } else if (aiGuess < aiNumber) {
+          aiMin = aiGuess + 1;
+          document.getElementById('aiStatus').innerHTML = `<p>AI: "Terlalu kecil!" 👇</p>`;
+          
+          // Lanjutkan menebak
+          setTimeout(() => {
+            aiThinking = false;
+            aiMakeGuess();
+          }, 1500);
+        } else {
+          aiMax = aiGuess - 1;
+          document.getElementById('aiStatus').innerHTML = `<p>AI: "Terlalu besar!" 👆</p>`;
+          
+          // Lanjutkan menebak
+          setTimeout(() => {
+            aiThinking = false;
+            aiMakeGuess();
+          }, 1500);
+        }
+      }, 1000);
     }
-
-    function resetAIMode() {
-      const aiMode = document.getElementById('aiMode');
-      const mainMenu = document.getElementById('mainMenu');
-      if (aiMode && mainMenu) {
-        aiMode.style.display = 'none';
-        mainMenu.style.display = 'block';
-        aiNumber = Math.floor(Math.random() * 100) + 1;
-        playerAttempts = 0;
-        aiAttempts = 0;
-        aiMin = 1;
-        aiMax = 100;
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-      const aiMode = document.getElementById('aiMode');
-      if (!aiMode) {
-        console.error("Elemen Mode AI tidak ditemukan!");
-      }
-    });
-
-    // === TEMA BARU v3.2 ===
-    function changeTheme() {
-      const theme = document.getElementById('themeSelect').value;
-      document.body.classList.remove('light-mode', 'neon', 'custom-theme', 'rainbow-theme', 'orion-theme', 'cyber-theme');
-      if (theme === 'light') {
-        document.body.classList.add('light-mode');
-        document.body.style.background = "#f4f4f4";
-        document.getElementById('customThemePicker').style.display = "none";
-      } else if (theme === 'neon') {
-        document.body.classList.add('neon');
-        document.body.style.background = "linear-gradient(135deg, #0fffc1, #7e0fff 80%)";
-        document.getElementById('customThemePicker').style.display = "none";
-      } else if (theme === 'custom') {
-        document.body.classList.add('custom-theme');
-        document.getElementById('customThemePicker').style.display = "inline-block";
-        applyCustomTheme();
-      } else if (theme === 'rainbow') {
-        document.body.classList.add('rainbow-theme');
-        document.body.style.background = ""; // biar pakai CSS rainbow-theme
-        document.getElementById('customThemePicker').style.display = "none";
-      } else if (theme === 'orion') {
-        document.body.classList.add('orion-theme');
-        document.body.style.background = "";
-        document.getElementById('customThemePicker').style.display = "none";
-      } else if (theme === 'cyber') {
-        document.body.classList.add('cyber-theme');
-        document.body.style.background = "";
-        document.getElementById('customThemePicker').style.display = "none";
-      } else {
-        // Default: dark
-        document.body.style.background = "linear-gradient(135deg, #6a11cb, #2575fc)";
-        document.getElementById('customThemePicker').style.display = "none";
-      }
-    }
-
-    function applyCustomTheme() {
-      const color1 = document.getElementById('color1').value;
-      const color2 = document.getElementById('color2').value;
-      document.body.classList.add('custom-theme');
-      document.body.style.background = `linear-gradient(135deg, ${color1}, ${color2})`;
-    }
-
-    // Set tema default saat load
-    document.addEventListener('DOMContentLoaded', function () {
-      updateCoinDisplay();
-  refreshThemeOptions();
-  changeTheme();
-    });
     
-    // KOIN
-let userCoins = Number(localStorage.getItem('userCoins') || 0);
-function updateCoinDisplay() {
-  let el = document.getElementById('coinDisplay');
-  if (!el) return;
-  el.style.display = 'block';
-  el.textContent = `💰 Koin: ${userCoins}`;
-}
-
-// QUEST SYSTEM
-const QUESTS = [
-  { id: "daily1", type: "daily", desc: "Main 1x hari ini", goal: 1, reward: 10 },
-  { id: "daily2", type: "daily", desc: "Menang 2x hari ini", goal: 2, reward: 20 },
-  { id: "weekly1", type: "weekly", desc: "Main 5x minggu ini", goal: 5, reward: 30 },
-  { id: "weekly2", type: "weekly", desc: "Menang 7x minggu ini", goal: 7, reward: 40 }
-];
-function getQuestKey(type) {
-  const now = new Date();
-  if (type === "daily") {
-    return "quest_daily_" + now.getFullYear() + "_" + now.getMonth() + "_" + now.getDate();
-  } else {
-    const firstDay = new Date(now.getFullYear(),0,1);
-    const week = Math.ceil((((now - firstDay) / 86400000) + firstDay.getDay()+1)/7);
-    return "quest_weekly_" + now.getFullYear() + "_w" + week;
-  }
-}
-function loadQuestProgress() {
-  let daily = JSON.parse(localStorage.getItem(getQuestKey("daily"))||"{}");
-  let weekly = JSON.parse(localStorage.getItem(getQuestKey("weekly"))||"{}");
-  return { daily, weekly };
-}
-function saveQuestProgress(type, data) {
-  localStorage.setItem(getQuestKey(type), JSON.stringify(data));
-}
-function updateQuestProgress(type, id, add=1) {
-  const progress = loadQuestProgress();
-  if(!progress[type][id]) progress[type][id]=0;
-  progress[type][id] += add;
-  saveQuestProgress(type, progress[type]);
-  // Notif jika selesai
-  const quest = QUESTS.find(q=>q.id===id);
-  if(progress[type][id]===quest.goal) {
-    showQuestNotif(`🎉 Quest "${quest.desc}" selesai! +${quest.reward} koin`);
-    userCoins += quest.reward;
-    localStorage.setItem('userCoins', userCoins);
-    updateCoinDisplay();
-  }
-}
-function showQuestNotif(msg) {
-  let notif = document.createElement('div');
-  notif.style.position = 'fixed';
-  notif.style.bottom = '30px';
-  notif.style.left = '50%';
-  notif.style.transform = 'translateX(-50%)';
-  notif.style.background = '#333';
-  notif.style.color = '#ffd700';
-  notif.style.padding = '14px 28px';
-  notif.style.borderRadius = '18px';
-  notif.style.fontWeight = 'bold';
-  notif.style.fontSize = '18px';
-  notif.style.zIndex = 9999;
-  notif.textContent = msg;
-  document.body.appendChild(notif);
-  setTimeout(()=>notif.remove(), 3000);
-}
-function showQuestPopup() {
-  let modal = document.getElementById('questModal');
-  let progress = loadQuestProgress();
-  let html = `<div class="modal-content"><h2>🎯 Quest Harian & Mingguan</h2><ul style="text-align:left;">`;
-  QUESTS.forEach(q=>{
-    let prog = (progress[q.type][q.id]||0);
-    let done = prog>=q.goal;
-    html += `<li>
-      <b>${q.desc}</b> <span style="color:#f39c12;">(+${q.reward} koin)</span><br>
-      <div style="background:#eee;border-radius:8px;overflow:hidden;width:90%;margin:4px 0;">
-        <div style="background:${done?'#4caf50':'#2196f3'};height:12px;width:${Math.min(100,prog/q.goal*100)}%"></div>
-      </div>
-      <span style="font-size:13px;">${prog}/${q.goal} ${done?'<span style="color:#4caf50;">✔️ Selesai</span>':''}</span>
-    </li>`;
-  });
-  html += `</ul><button onclick="closeQuestPopup()">Tutup</button></div>`;
-  modal.innerHTML = html;
-  modal.style.display = 'flex';
-}
-function closeQuestPopup() {
-  document.getElementById('questModal').style.display = 'none';
-}
-
-// SHOP TEMA EKSKLUSIF
-const THEME_SHOP = [
-  { id: "rainbow", name: "🌈 Rainbow", price: 100, desc: "Tema animasi pelangi super keren!" },
-  { id: "orion", name: "🪐 Orion", price: 80, desc: "Tema galaksi biru gelap elegan." },
-  { id: "cyber", name: "🤖 Tea Cyber", price: 60, desc: "Tema cyber biru modern." }
-];
-function getOwnedThemes() {
-  return JSON.parse(localStorage.getItem("ownedThemes")||"[]");
-}
-function setOwnedThemes(arr) {
-  localStorage.setItem("ownedThemes", JSON.stringify(arr));
-}
-function showThemeShop() {
-  let owned = getOwnedThemes();
-  let html = `<div class="modal-content"><h2>🛒 Shop Tema Eksklusif</h2><ul style="text-align:left;">`;
-  THEME_SHOP.forEach(t => {
-    const bought = owned.includes(t.id);
-    html += `<li style="margin-bottom:12px;">
-      <b>${t.name}</b> <span style="color:#f39c12;">${t.price} koin</span><br>
-      <span style="font-size:13px;">${t.desc}</span><br>
-      ${bought ? `<span style="color:#4caf50;">Sudah dibeli ✔️</span>` :
-      `<button onclick="buyTheme('${t.id}',${t.price})">Beli</button>`}
-    </li>`;
-  });
-  html += `</ul><button onclick="closeThemeShop()">Tutup</button></div>`;
-  let modal = document.getElementById('themeShopModal');
-  modal.innerHTML = html;
-  modal.style.display = 'flex';
-}
-function closeThemeShop() {
-  document.getElementById('themeShopModal').style.display = 'none';
-  refreshThemeOptions();
-}
-function buyTheme(id, price) {
-  if(userCoins < price) {
-    alert("Koin tidak cukup!");
-    return;
-  }
-  let owned = getOwnedThemes();
-  if(owned.includes(id)) return;
-  userCoins -= price;
-  localStorage.setItem('userCoins', userCoins);
-  updateCoinDisplay();
-  owned.push(id);
-  setOwnedThemes(owned);
-  closeThemeShop();
-  refreshThemeOptions();
-  alert("Berhasil membeli tema! Silakan pilih di menu tema.");
-}
-function unlockThemeOption(id) {
-  const select = document.getElementById('themeSelect');
-  const idx = {rainbow:4, orion:5, cyber:6}[id];
-  if(select && select.options[idx]) {
-    select.options[idx].disabled = false;
-  }
-}
-function refreshThemeOptions() {
-  const owned = getOwnedThemes();
-  ["rainbow","orion","cyber"].forEach((id)=>{
-    if(owned.includes(id)) unlockThemeOption(id);
-  });
-}
+    // Sistem Quest
+    function getQuestKey(type) {
+      const now = new Date();
+      if (type === "daily") {
+        return "quest_daily_" + now.getFullYear() + "_" + now.getMonth() + "_" + now.getDate();
+      } else {
+        const firstDay = new Date(now.getFullYear(),0,1);
+        const week = Math.ceil((((now - firstDay) / 86400000) + firstDay.getDay()+1)/7);
+        return "quest_weekly_" + now.getFullYear() + "_w" + week;
+      }
+    }
+    
+    function loadQuestProgress() {
+      let daily = JSON.parse(localStorage.getItem(getQuestKey("daily"))||"{}");
+      let weekly = JSON.parse(localStorage.getItem(getQuestKey("weekly"))||"{}");
+      return { daily, weekly };
+    }
+    
+    function saveQuestProgress(type, data) {
+      localStorage.setItem(getQuestKey(type), JSON.stringify(data));
+    }
+    
+    function updateQuestProgress(type, id, add=1) {
+      const progress = loadQuestProgress();
+      if(!progress[type][id]) progress[type][id]=0;
+      progress[type][id] += add;
+      saveQuestProgress(type, progress[type]);
+      
+      // Notif jika selesai
+      const quest = QUESTS.find(q=>q.id===id);
+      if(progress[type][id]===quest.goal) {
+        showNotification(`🎉 Quest "${quest.desc}" selesai! +${quest.reward} koin`);
+        userCoins += quest.reward;
+        localStorage.setItem('userCoins', userCoins);
+        updateCoinDisplay();
+      }
+    }
+    
+    function showQuestPopup() {
+      let modal = document.getElementById('questModal');
+      let progress = loadQuestProgress();
+      let html = `<div class="modal-content"><h2>🎯 Quest Harian & Mingguan</h2>`;
+      
+      html += `<div class="list-group">`;
+      QUESTS.forEach(q=>{
+        let prog = (progress[q.type][q.id]||0);
+        let done = prog>=q.goal;
+        html += `
+          <div class="list-group-item">
+            <div>
+              <strong>${q.desc}</strong>
+              <div class="progress">
+                <div class="progress-bar" style="width: ${Math.min(100, prog/q.goal*100)}%"></div>
+              </div>
+              <small>${prog}/${q.goal} ${done ? '<span style="color:#10b981;">✔️ Selesai</span>' : ''}</small>
+            </div>
+            <span style="color:#f59e0b; font-weight:600;">+${q.reward}</span>
+          </div>
+        `;
+      });
+      html += `</div>`;
+      
+      html += `<button class="btn btn-primary" onclick="closeQuestPopup()">Tutup</button></div>`;
+      modal.innerHTML = html;
+      modal.classList.remove('hidden');
+    }
+    
+    function closeQuestPopup() {
+      document.getElementById('questModal').classList.add('hidden');
+    }
+    
+    // Sistem Achievement
+    function getAchievements() {
+      return JSON.parse(localStorage.getItem("achievements")||"{}");
+    }
+    
+    function saveAchievements(achievements) {
+      localStorage.setItem("achievements", JSON.stringify(achievements));
+    }
+    
+    function updateAchievement(id, value = 1) {
+      const achievements = getAchievements();
+      
+      if (!achievements[id]) {
+        achievements[id] = 0;
+      }
+      
+      achievements[id] += value;
+      
+      // Check if achievement is unlocked
+      const achievement = ACHIEVEMENTS.find(a => a.id === id);
+      if (achievement && achievements[id] >= 1) {
+        showAchievementNotification(achievement);
+      }
+      
+      // Check coin collector achievement
+      if (userCoins >= 500) {
+        updateAchievement("coinCollector", 1);
+      }
+      
+      // Check winter master achievement
+      if (localStorage.getItem('theme') === 'winter') {
+        const winterGames = Number(localStorage.getItem('winterGames') || 0) + 1;
+        localStorage.setItem('winterGames', winterGames);
+        
+        if (winterGames >= 10) {
+          updateAchievement("winterMaster", 1);
+        }
+      }
+      
+      saveAchievements(achievements);
+    }
+    
+    function showAchievementNotification(achievement) {
+      const notif = document.createElement('div');
+      notif.className = 'achievement-notification';
+      notif.innerHTML = `
+        <div style="font-size: 24px; margin-bottom: 10px;">${achievement.icon}</div>
+        <div style="font-weight: 700; margin-bottom: 5px;">Achievement Unlocked!</div>
+        <div>${achievement.name}</div>
+      `;
+      
+      document.body.appendChild(notif);
+      
+      setTimeout(() => {
+        notif.style.opacity = '0';
+        setTimeout(() => notif.remove(), 500);
+      }, 3000);
+    }
+    
+    function showAchievements() {
+      const achievements = getAchievements();
+      let html = `<div class="modal-content"><h2>🏆 Achievements</h2>`;
+      
+      html += `<div class="grid">`;
+      ACHIEVEMENTS.forEach(achievement => {
+        const unlocked = achievements[achievement.id] >= 1;
+        html += `
+          <div class="grid-item" style="background: ${unlocked ? 'rgba(16, 185, 129, 0.1)' : 'rgba(0,0,0,0.05)'}">
+            <div style="font-size: 32px; margin-bottom: 10px;">${achievement.icon}</div>
+            <h3 style="margin-bottom: 5px;">${achievement.name}</h3>
+            <p style="font-size: 14px; color: #64748b;">${achievement.desc}</p>
+            <div style="margin-top: 10px; font-weight: 600; color: ${unlocked ? '#10b981' : '#94a3b8'}">
+              ${unlocked ? '✓ Unlocked' : 'Locked'}
+            </div>
+          </div>
+        `;
+      });
+      html += `</div>`;
+      
+      html += `<button class="btn btn-primary" onclick="closeAchievements()">Tutup</button></div>`;
+      
+      const modal = document.getElementById('achievementsModal');
+      modal.innerHTML = html;
+      modal.classList.remove('hidden');
+    }
+    
+    function closeAchievements() {
+      document.getElementById('achievementsModal').classList.add('hidden');
+    }
+    
+    // Shop Tema
+    function getOwnedThemes() {
+      return JSON.parse(localStorage.getItem("ownedThemes")||"[]");
+    }
+    
+    function setOwnedThemes(arr) {
+      localStorage.setItem("ownedThemes", JSON.stringify(arr));
+    }
+    
+    function showThemeShop() {
+      let owned = getOwnedThemes();
+      let html = `<div class="modal-content"><h2>🛒 Shop Tema Eksklusif</h2>`;
+      
+      html += `<div class="list-group">`;
+      THEME_SHOP.forEach(t => {
+        const bought = owned.includes(t.id);
+        html += `
+          <div class="list-group-item">
+            <div>
+              <h3>${t.name}</h3>
+              <p style="color: #64748b; margin: 5px 0;">${t.desc}</p>
+            </div>
+            <div>
+              ${bought ? 
+                `<span style="color: #10b981; font-weight: 600;">Sudah dibeli</span>` : 
+                `<button class="btn btn-primary" onclick="buyTheme('${t.id}',${t.price})">${t.price} Koin</button>`
+              }
+            </div>
+          </div>
+        `;
+      });
+      html += `</div>`;
+      
+      html += `<button class="btn btn-secondary" onclick="closeThemeShop()">Tutup</button></div>`;
+      
+      const modal = document.getElementById('themeShopModal');
+      modal.innerHTML = html;
+      modal.classList.remove('hidden');
+    }
+    
+    function closeThemeShop() {
+      document.getElementById('themeShopModal').classList.add('hidden');
+      refreshThemeOptions();
+    }
+    
+    function buyTheme(id, price) {
+      if(userCoins < price) {
+        showNotification("Koin tidak cukup!");
+        return;
+      }
+      
+      let owned = getOwnedThemes();
+      if(owned.includes(id)) return;
+      
+      userCoins -= price;
+      localStorage.setItem('userCoins', userCoins);
+      updateCoinDisplay();
+      
+      owned.push(id);
+      setOwnedThemes(owned);
+      
+      closeThemeShop();
+      refreshThemeOptions();
+      showNotification("Berhasil membeli tema! Silakan pilih di menu tema.");
+    }
+    
+    function unlockThemeOption(id) {
+      const select = document.getElementById('themeSelect');
+      const idx = {
+        "rainbow": 5, 
+        "orion": 6, 
+        "cyber": 7,
+        "fire": 8,
+        "nature": 9
+      }[id];
+      
+      if(select && select.options[idx]) {
+        select.options[idx].disabled = false;
+      }
+    }
+    
+    function refreshThemeOptions() {
+      const owned = getOwnedThemes();
+      ["rainbow","orion","cyber","fire","nature"].forEach((id)=>{
+        if(owned.includes(id)) unlockThemeOption(id);
+      });
+    }
+    
+    // Update Koin
+    function updateCoinDisplay() {
+      document.getElementById('coinAmount').textContent = userCoins;
+    }
+    
+    // Update Daily Challenge
+    function updateDailyChallenge() {
+      const challenges = [
+        "Tebak angka dalam kurang dari 5 percobaan!",
+        "Menang dalam waktu kurang dari 30 detik!",
+        "Dapatkan combo x3 dalam satu game!",
+        "Mainkan 3 game berturut-turut!"
+      ];
+      
+      const today = new Date().getDate();
+      const challengeIndex = today % challenges.length;
+      
+      const descElement = document.getElementById('dailyChallengeDesc');
+      if (descElement) {
+        descElement.textContent = challenges[challengeIndex];
+      }
+    }
+    
+    // Changelog
+    function showChangelog() {
+      let html = `<div class="modal-content"><h2>📜 Changelog TebakX</h2>`;
+      
+      html += `<div style="max-height: 60vh; overflow-y: auto; padding-right: 10px;">`;
+      html += `
+        <div class="card mb-10">
+          <h3 style="color: #0ea5e9;">v3.6 NCS Winter Edition</h3>
+          <ul style="padding-left: 20px; margin-top: 10px;">
+            <li>❄️ Tema eksklusif Winter Edition dengan efek salju</li>
+            <li>🌨️ Animasi salju & efek beku yang realistis</li>
+            <li>🎯 Tantangan Harian dengan hadiah koin</li>
+            <li>🏆 Sistem pencapaian (Achievements)</li>
+            <li>🎨 UI/UX lebih responsif & modern</li>
+            <li>🐞 Bug fix & optimisasi performa</li>
+          </ul>
+        </div>
+        
+        <div class="card mb-10">
+          <h3 style="color: #8b5cf6;">v3.5 Zaz Version</h3>
+          <ul style="padding-left: 20px; margin-top: 10px;">
+            <li>🎨 Tema eksklusif Zaz Version</li>
+            <li>🚀 UI/UX dirombak total, lebih modern & rapi</li>
+            <li>📱 Responsif di semua perangkat</li>
+            <li>⚡ Optimisasi performa</li>
+            <li>🌟 Splash screen baru makin keren</li>
+            <li>🐞 Bug fix minor</li>
+          </ul>
+        </div>
+        
+        <div class="card mb-10">
+          <h3 style="color: #3b82f6;">v3.4</h3>
+          <ul style="padding-left: 20px; margin-top: 10px;">
+            <li>🎯 Penambahan Quest Harian & Mingguan (reset otomatis)</li>
+            <li>💰 Koin reward quest & Shop Tema Eksklusif</li>
+            <li>🎨 Tema Rainbow, Orion, Cyber bisa dibeli dengan koin</li>
+            <li>🐞 Perbaikan bug & optimasi performa</li>
+            <li>📱 UI makin responsif di semua perangkat</li>
+            <li>🙏 Terima kasih untuk semua feedback!</li>
+          </ul>
+        </div>
+      `;
+      html += `</div>`;
+      
+      html += `<button class="btn btn-primary" onclick="closeChangelog()">Tutup</button></div>`;
+      
+      const modal = document.getElementById('changelogModal');
+      modal.innerHTML = html;
+      modal.classList.remove('hidden');
+    }
+    
+    function closeChangelog() {
+      document.getElementById('changelogModal').classList.add('hidden');
+    }
+    
+    // Reset All Data
+    function resetAllData() {
+      if (confirm("Apakah Anda yakin ingin mereset semua data? Ini akan menghapus semua progress, koin, dan pencapaian Anda.")) {
+        localStorage.clear();
+        userCoins = 0;
+        level = 1;
+        comboCount = 0;
+        updateCoinDisplay();
+        showNotification("Semua data telah direset!");
+        
+        // Reload page after a short delay
+        setTimeout(() => {
+          location.reload();
+        }, 1500);
+      }
+    }
+    
+    // Event listener untuk tombol Enter
+    document.addEventListener('DOMContentLoaded', function() {
+      const guessInput = document.getElementById('guess');
+      if (guessInput) {
+        guessInput.addEventListener('keydown', function(event) {
+          if (event.key === 'Enter') {
+            event.preventDefault();
+            makeGuess();
+          }
+        });
+      }
+      
+      const playerGuessInput = document.getElementById('playerGuess');
+      if (playerGuessInput) {
+        playerGuessInput.addEventListener('keydown', function(event) {
+          if (event.key === 'Enter') {
+            event.preventDefault();
+            playerMakeGuess();
+          }
+        });
+      }
+    });
   </script>
 </body>
 </html>
